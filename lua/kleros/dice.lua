@@ -4,7 +4,7 @@ function M.setup()
 	math.randomseed(os.time())
 end
 
-function M.roll_die(sides)
+local function roll_die(sides)
 	return math.random(1, sides)
 end
 
@@ -22,7 +22,7 @@ function M.roll_dice(expr)
 	local total = 0
 
 	for _ = 1, count do
-		local roll = M.roll_die(sides)
+		local roll = roll_die(sides)
 		table.insert(results, roll)
 		total = total + roll
 	end
