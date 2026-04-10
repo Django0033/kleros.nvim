@@ -6,11 +6,14 @@ Random tables plugin for TTRPGs in Neovim.
 
 ### Using vim.pack (built-in)
 
-```sh
-git clone --depth 1 https://github.com/yourusername/kleros.nvim.git ~/.local/share/nvim/site/pack/vendor/opt/kleros.nvim
-```
+Add this to your `init.lua` before calling `setup()`:
 
-Then restart Neovim.
+```lua
+vim.pack.add({
+    name = "kleros.nvim",
+    url = "https://github.com/yourusername/kleros.nvim.git",
+})
+```
 
 ### Using a plugin manager
 
