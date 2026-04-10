@@ -9,7 +9,7 @@ function M.roll_die(sides)
 end
 
 local function parse(expr)
-	local count, sides = expr:match("(%d+)d(%d+)")
+	local count, sides = expr:match("(%d*)d(%d+)")
 	count = tonumber(count) or 1
 	sides = tonumber(sides)
 
@@ -22,7 +22,7 @@ function M.roll_dice(expr)
 	local total = 0
 
 	for _ = 1, count do
-        local roll = M.roll_die(sides)
+		local roll = M.roll_die(sides)
 		table.insert(results, roll)
 		total = total + roll
 	end
