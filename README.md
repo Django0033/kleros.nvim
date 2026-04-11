@@ -54,9 +54,10 @@ Output: `Rolled 2d6: [3, 5] = 8`
 ### Getting Table Results
 
 ```vim
-:KlerosTables test_table      " Built-in table
+:KlerosTables test_table        " Built-in simple table
 :KlerosTables test_range_table  " Built-in range table
-:KlerosTables npc           " User-defined table (JSON)
+:KlerosTables ironsworn_action  " Built-in 100-entry action table
+:KlerosTables npc              " User-defined table (JSON)
 ```
 
 Output: `tbl: Test Table 1d6=3 -> result 3`
@@ -123,12 +124,13 @@ lua/kleros/
 ├── init.lua          -- Entry point with setup()
 ├── dice.lua          -- Dice rolling engine
 ├── table_roll.lua    -- Table rolling logic
-├── json_loader.lua  -- JSON file loader
+├── json_loader.lua   -- JSON file loader
 ├── user_tables.lua   -- User table manager
 └── tables/
-    ├── init.lua        -- Built-in tables
-    ├── test_table.lua   -- Example simple table
-    └── test_range_table.lua  -- Example range table
+    ├── init.lua            -- Built-in tables
+    ├── test_table.lua      -- Example simple table (1d6)
+    ├── test_range_table.lua -- Example range table
+    └── ironsworn_action.lua -- 100-entry action table (1d100)
 plugin/
 └── kleros.lua        -- User commands
 ```
