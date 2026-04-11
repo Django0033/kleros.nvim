@@ -21,9 +21,20 @@ function M.table_roll(table_name)
 
 	local tbl = require("kleros.tables." .. table_name)[table_name]
 	local tbl_name = tbl.name
+	local tbl_type = tbl.type
 	local tbl_dice = tbl.dice
 	local _, total = dice.roll_dice(tbl.dice)
-	local entry = tbl.entries[total]
+	local entry = ""
+
+	if tbl_type == "range" then
+		for _, ent in ipairs(tbl.entries) do
+			if total >= ent.min and total <= ent.max then
+				entry = ent.result
+			end
+		end
+	else
+		entry = tbl.entries[total]
+	end
 
 	return tbl_name, tbl_dice, total, entry
 end
