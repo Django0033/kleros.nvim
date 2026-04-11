@@ -10,5 +10,10 @@ vim.api.nvim_create_user_command("KlerosTables", function(opts)
 	local tbl = opts.args
 	local tbl_dice, total, entry = require("kleros.table_roll").table_roll(tbl)
 
-	print(string.format("tbl: %s=%s -> %s"), tbl_dice, total, entry)
+	if not entry or type(entry) == "string" and entry:match("^Error:") then
+		print(entry or "Unknown error")
+		return
+	end
+
+	print(string.format("tbl: %s = %s -> %s", tbl_dice, total, entry))
 end, { nargs = "?" })
