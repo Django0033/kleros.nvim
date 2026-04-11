@@ -1,25 +1,37 @@
 local M = {}
 
 local dice = require("kleros.dice")
+local user_tables = require("kleros.user_tables")
 
 function M.table_roll(table_name)
 	if not table_name or table_name == "" then
 		return nil, nil, "Error: table name required"
 	end
 
+	local tbl = nil
+
+	-- Buscar en built-in tables
 	local success, tbl_module = pcall(require, "kleros.tables." .. table_name)
-
-	if not success or not tbl_module then
-		return nil, nil, "Error: table module not found"
+	if success and tbl_module then
+		tbl = tbl_module[table_name]
 	end
 
-	local tbl = tbl_module[table_name]
-
+	-- Si no encontró, buscar en user tables
 	if not tbl then
-		return nil, nil, "Error: table '" .. table_name .. "' not found in module"
+		local kleros = require("kleros")
+		local tables_dir = kleros.tables_dir
+
+		if tables_dir then
+			user_tables.load_all(tables_dir)
+			tbl = user_tables.get(table_name)
+		end
 	end
 
-	local tbl = require("kleros.tables." .. table_name)[table_name]
+	-- Si no se encontró en ningún lado
+	if not tbl then
+		return nil, nil, nil, "Error: table '" .. table_name .. "' not found"
+	end
+
 	local tbl_name = tbl.name
 	local tbl_type = tbl.type
 	local tbl_dice = tbl.dice
