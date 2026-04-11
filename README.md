@@ -32,6 +32,11 @@ Plug 'yourusername/kleros.nvim'
 ```lua
 -- In your init.lua
 require("kleros").setup()
+
+-- Optional: specify custom tables directory
+require("kleros").setup({
+    tables_dir = "~/my-ttrpg-tables"  -- default: ~/.config/nvim/kleros-tables
+})
 ```
 
 ## Usage
@@ -40,58 +45,90 @@ require("kleros").setup()
 
 ```vim
 :KlerosRoll d20      " Roll a d20 (default)
-:KlerosRoll 2d6      " Roll 2d6
-:KlerosRoll d6       " Roll a d6
+:KlerosRoll 2d6     " Roll 2d6
+:KlerosRoll d6        " Roll a d6
 ```
 
 Output: `Rolled 2d6: [3, 5] = 8`
 
 ### Getting Table Results
 
-Tables use dice rolls to select a random result:
-
-```lua
-local dice = require("kleros.dice")
-local table = require("kleros.tables.test_table").test_table
-
-local _, total = dice.roll_dice(table.dice)
-local result = table.entries[total]
-
--- If total = 3, result = "result 3"
+```vim
+:KlerosTables test_table      " Built-in table
+:KlerosTables test_range_table  " Built-in range table
+:KlerosTables npc           " User-defined table (JSON)
 ```
 
-## Adding New Tables
+Output: `tbl: Test Table 1d6=3 -> result 3`
 
-Create a new file in `lua/kleros/tables/`:
+## User-Defined Tables
 
-```lua
--- lua/kleros/tables/my_table.lua
-local M = {}
+Create JSON files in your tables directory (default: `~/.config/nvim/kleros-tables/`).
 
-M.my_table = {
-    name = "my_table",
-    dice = "1d6",
-    entries = {
-        "Result 1",
-        "Result 2",
-        "Result 3",
-        "Result 4",
-        "Result 5",
-        "Result 6",
-    },
+### Simple Table (npc.json)
+
+```json
+{
+    "name": "NPC Types",
+    "type": "simple",
+    "dice": "1d6",
+    "entries": [
+        "Merchant",
+        "Guard",
+        "Villager",
+        "Noble",
+        "Thief",
+        "Mage"
+    ]
 }
-
-return M
 ```
+
+### Range Table (treasure.json)
+
+```json
+{
+    "name": "Treasure",
+    "type": "range",
+    "dice": "1d100",
+    "entries": [
+        { "min": 1, "max": 50, "result": "Empty pockets" },
+        { "min": 51, "max": 80, "result": "10 gold coins" },
+        { "min": 81, "max": 95, "result": "Gemstone (50g)" },
+        { "min": 96, "max": 100, "result": "Magic item!" }
+    ]
+}
+```
+
+## Table Types
+
+| Type       | How entries are selected              |
+|:-----------|:--------------------------------------|
+| `simple`   | `entries[total]` - index by dice roll |
+| `range`    | Match where `min <= total <= max`     |
+
+## Table Fields
+
+| Field      | Type       | Required   | Description                              |
+|:-----------|:-----------|:-----------|:-----------------------------------------|
+| `name`     | string     | Yes        | Table name (used for lookup)             |
+| `type`     | string     | Yes        | ''simple'' or ''range''                  |
+| `dice`     | string     | Yes        | Dice notation (e.g., ''1d6'', ''1d100'') |
+| `entries`  | array      | Yes        | Array of entries                         |
+
 
 ## Structure
 
 ```
 lua/kleros/
-├── init.lua          -- Entry point
+├── init.lua          -- Entry point with setup()
 ├── dice.lua          -- Dice rolling engine
+├── table_roll.lua    -- Table rolling logic
+├── json_loader.lua  -- JSON file loader
+├── user_tables.lua   -- User table manager
 └── tables/
-    └── test_table.lua -- Example table
+    ├── init.lua        -- Built-in tables
+    ├── test_table.lua   -- Example simple table
+    └── test_range_table.lua  -- Example range table
 plugin/
 └── kleros.lua        -- User commands
 ```
@@ -101,5 +138,19 @@ plugin/
 | Command | Description |
 |---------|-------------|
 | `:KlerosRoll [expr]` | Roll dice (default: d20) |
+| `:KlerosTables [name]` | Get random table result |
 
-Supported notation: `d4`, `d6`, `d8`, `d10`, `d12`, `d20`, `d100`, `2d6`, etc.
+Supported dice notation: `d4`, `d6`, `d8`, `d10`, `d12`, `d20`, `d100`, `2d6`, etc.
+
+## API
+
+```lua
+local dice = require("kleros.dice")
+local table_roll = require("kleros.table_roll")
+
+-- Roll dice
+local results, total = dice.roll_dice("2d6")
+
+-- Roll from table
+local tbl_name, tbl_dice, total, entry = table_roll.table_roll("test_table")
+```
