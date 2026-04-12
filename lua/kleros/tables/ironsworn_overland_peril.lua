@@ -1,0 +1,47 @@
+local M = {}
+
+M.ironsworn_overland_peril = {
+    name = "Overland Peril",
+    type = "range",
+    dice = "1d100",
+    entries = {
+        { min = 1, max = 4, result = "Lingering foul weather tests your endurance" },
+        { min = 5, max = 8, result = "A piece of important gear is damaged or broken" },
+        { min = 9, max = 12, result = "Provisions are lost, wasted, or spoiled" },
+        { min = 13, max = 16, result = "The weather takes a turn for the worse" },
+        { min = 17, max = 20, result = "Rugged terrain or dense vegetation hampers your progress" },
+        { min = 21, max = 23, result = "An injury or old pain causes trouble" },
+        { min = 24, max = 26, result = "A cleverly camouflaged or hidden predator attacks" },
+        { min = 27, max = 29, result = "You stumble into the lair or nest of dangerous creatures" },
+        { min = 30, max = 32, result = "You are caught in a trap or ambush" },
+        { min = 33, max = 35, result = "An impassable path forces a dangerous detour" },
+        { min = 36, max = 38, result = "The path forces a treacherous crossing over a river or gap" },
+        { min = 39, max = 41, result = "A steep cliff or precipitous drop stands in your way" },
+        { min = 42, max = 44, result = "Confounding paths cause you to lose your way" },
+        { min = 45, max = 47, result = "Disease or sickness takes hold" },
+        { min = 48, max = 50, result = "You realize something important was lost or left behind" },
+        { min = 51, max = 53, result = "You come upon a settlement or camp in crisis" },
+        { min = 54, max = 56, result = "Someone who watches over this area makes a costly demand or threat" },
+        { min = 57, max = 59, result = "An enemy patrol or outpost guards this area" },
+        { min = 60, max = 62, result = "You encounter a dangerous animal or pack" },
+        { min = 63, max = 65, result = "Insects or small creatures swarm to attack" },
+        { min = 66, max = 68, result = "You are caught in a flood or forced to navigate a perilous waterway" },
+        { min = 69, max = 71, result = "You encounter a fellow traveler in peril" },
+        { min = 72, max = 74, result = "Fog or darkness hides a lurking danger" },
+        { min = 75, max = 76, result = "You suffer the effects of toxic plants or venomous creatures" },
+        { min = 77, max = 78, result = "You are caught within unnatural mist or darkness" },
+        { min = 79, max = 80, result = "A companion or fellow traveler stumbles into danger" },
+        { min = 81, max = 82, result = "Muddy ground or a quagmire threatens to drag you down" },
+        { min = 83, max = 84, result = "You encounter a monstrous beast" },
+        { min = 85, max = 86, result = "A deceptively peaceful location lures you into a false sense of safety" },
+        { min = 87, max = 88, result = "Spooked creatures stampede along your path" },
+        { min = 89, max = 90, result = "A companion or fellow traveler is injured or falls ill" },
+        { min = 91, max = 92, result = "You face a dreadful vision or hallucination" },
+        { min = 93, max = 94, result = "A sinkhole or pit opens beneath you" },
+        { min = 95, max = 96, result = "A supernatural entity seeks vengeance or absolution" },
+        { min = 97, max = 98, result = "Unstable terrain causes a rockfall or landslide" },
+        { min = 99, max = 100, result = "Your presence triggers a spell or supernatural anomaly" },
+    }
+}
+
+return M
