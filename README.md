@@ -81,6 +81,8 @@ Output: `Rolled 2d6: [3, 5] = 8`
 :KlerosTables is_settlement_disposition " Ironsworn Settlement Disposition (1d100, range)
 :KlerosTables is_settlement_first_look " Ironsworn Settlement First Look (1d100, range)
 :KlerosTables is_settlement_project " Ironsworn Settlement Project (1d100, range)
+:KlerosTables is_settlement_troubles " Ironsworn Settlement Troubles (1d100, range)
+:KlerosTables is_settlement_cultural_touchstones " Ironsworn Settlement Cultural Touchstones (1d100, range)
 :KlerosTables is_prompt_build     " Ironsworn Prompt Build (1d100, range)
 :KlerosTables npc                 " User-defined table (JSON)
 ```
@@ -180,6 +182,8 @@ lua/kleros/
     ├── is_settlement_disposition.lua -- Ironsworn Settlement Disposition (1d100, range)
     ├── is_settlement_first_look.lua -- Ironsworn Settlement First Look (1d100, range)
     ├── is_settlement_project.lua -- Ironsworn Settlement Project (1d100, range)
+    ├── is_settlement_troubles.lua -- Ironsworn Settlement Troubles (1d100, range)
+    ├── is_settlement_cultural_touchstones.lua -- Ironsworn Settlement Cultural Touchstones (1d100, range)
     └── is_prompt_build.lua     -- Ironsworn Prompt Build (1d100, range)
 plugin/
 └── kleros.lua        -- User commands
