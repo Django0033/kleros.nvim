@@ -54,12 +54,13 @@ Output: `Rolled 2d6: [3, 5] = 8`
 ### Getting Table Results
 
 ```vim
-:KlerosTables test_table         " Built-in simple table (1d6)
-:KlerosTables test_range_table   " Built-in range table (1d6)
-:KlerosTables ironsworn_action  " Built-in action table (1d100)
-:KlerosTables ironsworn_theme   " Built-in theme table (1d100)
-:KlerosTables ironsworn_prompt_build  " Built-in prompt build table (1d100)
-:KlerosTables npc               " User-defined table (JSON)
+:KlerosTables test_table              " Built-in simple table (1d6)
+:KlerosTables test_range_table        " Built-in range table (1d6)
+:KlerosTables ironsworn_action          " Built-in action table (1d100)
+:KlerosTables ironsworn_theme          " Built-in theme table (1d100)
+:KlerosTables ironsworn_descriptor     " Built-in descriptor table (1d100)
+:KlerosTables ironsworn_prompt_build    " Built-in prompt build table (1d100)
+:KlerosTables npc                     " User-defined table (JSON)
 ```
 
 Output: `tbl: Test Table 1d6=3 -> result 3`
@@ -132,8 +133,9 @@ lua/kleros/
     ├── init.lua             -- Built-in tables
     ├── test_table.lua       -- Example simple table (1d6)
     ├── test_range_table.lua -- Example range table
-    ├── ironsworn_action.lua -- 100-entry action table (1d100)
-    ├── ironsworn_theme.lua  -- 100-entry theme table (1d100)
+    ├── ironsworn_action.lua  -- 100-entry action table (1d100)
+    ├── ironsworn_theme.lua   -- 100-entry theme table (1d100)
+    ├── ironsworn_descriptor.lua -- 100-entry descriptor table (1d100)
     └── ironsworn_prompt_build.lua -- Prompt build table (1d100, range)
 plugin/
 └── kleros.lua        -- User commands
