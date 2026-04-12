@@ -9,6 +9,13 @@ function M.table_roll(table_name)
 	end
 
 	local tbl = nil
+	local subkey = nil
+
+	-- Check for dot notation (e.g., "is_settlement_type.settled_lands")
+	if table_name:match("%.") then
+		subkey = table_name:match("%.(.+)$")
+		table_name = table_name:match("^([^%.]+)")
+	end
 
 	-- Buscar en built-in tables
 	local success, tbl_module = pcall(require, "kleros.tables." .. table_name)
@@ -30,6 +37,11 @@ function M.table_roll(table_name)
 	-- Si no se encontró en ningún lado
 	if not tbl then
 		return nil, nil, nil, "Error: table '" .. table_name .. "' not found"
+	end
+
+	-- If subkey exists, use the nested table
+	if subkey and tbl.entries and tbl.entries[subkey] then
+		tbl = tbl.entries[subkey]
 	end
 
 	local tbl_name = tbl.name

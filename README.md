@@ -74,6 +74,9 @@ Output: `Rolled 2d6: [3, 5] = 8`
 :KlerosTables is_coastal_waters_waypoint " Ironsworn Coastal Waters Waypoint (1d100, range)
 :KlerosTables is_coastal_waters_peril   " Ironsworn Coastal Waters Peril (1d100, range)
 :KlerosTables is_coastal_waters_opportunity " Ironsworn Coastal Waters Opportunity (1d100, range)
+:KlerosTables is_settlement_type.settled_lands " Ironsworn Settlement Type - Settled Lands (1d100, range)
+:KlerosTables is_settlement_type.boundary_lands " Ironsworn Settlement Type - Boundary Lands (1d100, range)
+:KlerosTables is_settlement_type.remote_lands " Ironsworn Settlement Type - Remote Lands (1d100, range)
 :KlerosTables is_prompt_build     " Ironsworn Prompt Build (1d100, range)
 :KlerosTables npc                 " User-defined table (JSON)
 ```
@@ -124,6 +127,14 @@ Create JSON files in your tables directory (default: `~/.config/nvim/kleros-tabl
 |:-----------|:--------------------------------------|
 | `simple`   | `entries[total]` - index by dice roll |
 | `range`    | Match where `min <= total <= max`     |
+| `select`   | Use dot notation to pick sub-table (e.g., `table.subkey`) |
+
+### Nested Tables (Select Type)
+
+Some tables contain multiple sub-tables. Use dot notation to access:
+- `:KlerosTables is_settlement_type.settled_lands`
+- `:KlerosTables is_settlement_type.boundary_lands`
+- `:KlerosTables is_settlement_type.remote_lands`
 
 ## Table Fields
 
@@ -160,6 +171,7 @@ lua/kleros/
     ├── is_coastal_waters_waypoint.lua -- Ironsworn Coastal Waters Waypoint (1d100, range)
     ├── is_coastal_waters_peril.lua   -- Ironsworn Coastal Waters Peril (1d100, range)
     ├── is_coastal_waters_opportunity.lua -- Ironsworn Coastal Waters Opportunity (1d100, range)
+    ├── is_settlement_type.lua -- Ironsworn Settlement Type (nested, select)
     └── is_prompt_build.lua     -- Ironsworn Prompt Build (1d100, range)
 plugin/
 └── kleros.lua        -- User commands
