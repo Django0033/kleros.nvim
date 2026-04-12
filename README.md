@@ -60,8 +60,9 @@ Output: `Rolled 2d6: [3, 5] = 8`
 :KlerosTables ironsworn_theme          " Built-in theme table (1d100)
 :KlerosTables ironsworn_descriptor     " Built-in descriptor table (1d100)
 :KlerosTables ironsworn_focus          " Built-in focus table (1d100)
-:KlerosTables ironsworn_overland_landmark " Built-in overland landmark table (1d100)
-:KlerosTables ironsworn_prompt_build    " Built-in prompt build table (1d100)
+:KlerosTables ironsworn_overland_landmark " Built-in overland landmark table (1d100, range)
+:KlerosTables ironsworn_overland_waypoint " Built-in overland waypoint table (1d100)
+:KlerosTables ironsworn_prompt_build    " Built-in prompt build table (1d100, range)
 :KlerosTables npc                     " User-defined table (JSON)
 ```
 
@@ -140,6 +141,7 @@ lua/kleros/
     ├── ironsworn_descriptor.lua -- 100-entry descriptor table (1d100)
     ├── ironsworn_focus.lua    -- 100-entry focus table (1d100)
     ├── ironsworn_overland_landmark.lua -- Overland landmark table (1d100, range)
+    ├── ironsworn_overland_waypoint.lua  -- Overland waypoint table (1d100)
     └── ironsworn_prompt_build.lua -- Prompt build table (1d100, range)
 plugin/
 └── kleros.lua        -- User commands
