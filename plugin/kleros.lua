@@ -1,35 +1,60 @@
 local function get_table_completion(arglead, cmdline, cursor)
 	local all_tables = {}
 
-	-- Built-in tables (use key = filename)
-	local builtin_ok, builtin = pcall(require, "kleros.tables")
-	if builtin_ok and builtin then
-		for key, _ in pairs(builtin) do
-			table.insert(all_tables, key)
-		end
+	-- Check for dot notation (nested table access)
+	local main_table = nil
+	local subkey_prefix = ""
+	if arglead and arglead:match("%.") then
+		main_table = arglead:match("^([^%.]+)")
+		subkey_prefix = arglead:match("%.(.+)$") or ""
 	end
 
-	-- User tables from JSON (use filename as key)
-	local kleros = require("kleros")
-	if kleros.tables_dir then
-		local user_tables = require("kleros.user_tables")
-		local user_ok, user = pcall(user_tables.load_all, kleros.tables_dir)
-		if user_ok and user then
-			for key, _ in pairs(user) do
+	-- If dot notation, get sub-keys from nested table
+	if main_table then
+		local builtin_ok, builtin = pcall(require, "kleros.tables." .. main_table)
+		if builtin_ok and builtin then
+			local tbl = builtin[main_table]
+			if tbl and tbl.entries then
+				for key, _ in pairs(tbl.entries) do
+					local full_key = main_table .. "." .. key
+					if subkey_prefix == "" or key:lower():match("^" .. subkey_prefix:lower()) then
+						table.insert(all_tables, full_key)
+					end
+				end
+			end
+		end
+	-- Normal completion (no dot)
+	else
+		-- Built-in tables (use key = filename)
+		local builtin_ok, builtin = pcall(require, "kleros.tables")
+		if builtin_ok and builtin then
+			for key, _ in pairs(builtin) do
 				table.insert(all_tables, key)
 			end
 		end
-	end
 
-	-- Filter by arglead
-	if arglead and arglead ~= "" then
-		local filtered = {}
-		for _, v in ipairs(all_tables) do
-			if v:lower():match("^" .. arglead:lower()) then
-				table.insert(filtered, v)
+		-- User tables from JSON (use filename as key)
+		local kleros = require("kleros")
+		if kleros.tables_dir then
+			local user_tables = require("kleros.user_tables")
+			local user_ok, user = pcall(user_tables.load_all, kleros.tables_dir)
+			if user_ok and user then
+				for key, _ in pairs(user) do
+					table.insert(all_tables, key)
+				end
 			end
 		end
-		all_tables = filtered
+
+		-- Filter by arglead
+		if arglead and arglead ~= "" then
+			local filtered = {}
+			for _, v in ipairs(all_tables) do
+				if v:lower():match("^" .. arglead:lower()) then
+					table.insert(filtered, v)
+				end
+			end
+			all_tables = filtered
+		end
 	end
 
 	table.sort(all_tables)
