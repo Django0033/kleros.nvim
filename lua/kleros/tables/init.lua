@@ -10,5 +10,6 @@ M.ironsworn_focus = require("kleros.tables.ironsworn_focus")
 M.ironsworn_overland_landmark = require("kleros.tables.ironsworn_overland_landmark")
 M.ironsworn_overland_waypoint = require("kleros.tables.ironsworn_overland_waypoint")
 M.ironsworn_overland_peril = require("kleros.tables.ironsworn_overland_peril")
+M.ironsworn_overland_opportunity = require("kleros.tables.ironsworn_overland_opportunity")
 
 return M

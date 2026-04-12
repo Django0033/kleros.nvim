@@ -1,0 +1,47 @@
+local M = {}
+
+M.ironsworn_overland_opportunity = {
+    name = "Overland Opportunity",
+    type = "range",
+    dice = "1d100",
+    entries = {
+        { min = 1, max = 4, result = "Ideal weather takes hold" },
+        { min = 5, max = 8, result = "The terrain favors you" },
+        { min = 9, max = 12, result = "There are plentiful hunting or foraging opportunities in this area" },
+        { min = 13, max = 16, result = "A clear path leads through otherwise dangerous terrain" },
+        { min = 17, max = 20, result = "You find an ideal location for a campsite" },
+        { min = 21, max = 23, result = "An awe-inspiring vista offers comfort or inspiration" },
+        { min = 24, max = 26, result = "You find a useful item" },
+        { min = 27, max = 29, result = "A helpful traveler crosses your path" },
+        { min = 30, max = 32, result = "An intriguing site offers opportunities for exploration" },
+        { min = 33, max = 35, result = "A vantage point reveals a key landmark" },
+        { min = 36, max = 38, result = "A nearby settlement flies a friendly banner" },
+        { min = 39, max = 41, result = "Something about this journey sparks a fond or helpful memory" },
+        { min = 42, max = 44, result = "You encounter a helpful or useful animal" },
+        { min = 45, max = 47, result = "You encounter a friendly group of local denizens" },
+        { min = 48, max = 50, result = "A sheltered refuge offers a place to hide, plan, or recover" },
+        { min = 51, max = 53, result = "A monument or relic reveals something of the history of this land" },
+        { min = 54, max = 56, result = "You find plants or herbs with potentially helpful qualities" },
+        { min = 57, max = 59, result = "Tracks or a cooling campfire show that others have passed this way" },
+        { min = 60, max = 62, result = "You are forewarned of a dangerous path" },
+        { min = 63, max = 65, result = "A desolate settlement or camp offers scavenging opportunities" },
+        { min = 66, max = 68, result = "You find an opening to distract, escape, or avoid foes" },
+        { min = 69, max = 71, result = "A clue offers insight into a current quest or mystery" },
+        { min = 72, max = 74, result = "You encounter a potential actor in need of help" },
+        { min = 75, max = 76, result = "You learn or improve a useful skill" },
+        { min = 77, max = 78, result = "A caravan offers the potential comforts and safety of a community" },
+        { min = 79, max = 80, result = "You experience a helpful dream or vision" },
+        { min = 81, max = 82, result = "The terrain offers a defensible position against a threat" },
+        { min = 83, max = 84, result = "A supernatural entity offers helpful guidance" },
+        { min = 85, max = 86, result = "You encounter a majestic or previously unknown creature" },
+        { min = 87, max = 88, result = "A lurking foe unwittingly reveals themselves, giving you the drop on them" },
+        { min = 89, max = 90, result = "You spot a friendly animal keeping pace with you—a good omen" },
+        { min = 91, max = 92, result = "A signpost or marker provides guidance" },
+        { min = 93, max = 94, result = "An otherwise dangerous predator shows benign interest in you" },
+        { min = 95, max = 96, result = "A stone or tree bears helpful or inspiring markings from past travelers" },
+        { min = 97, max = 98, result = "You experience a moment of fellowship or inner peace" },
+        { min = 99, max = 100, result = "You find an object or resource of great value" },
+    }
+}
+
+return M
