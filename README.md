@@ -59,6 +59,7 @@ Output: `Rolled 2d6: [3, 5] = 8`
 :KlerosTables ironsworn_action          " Built-in action table (1d100)
 :KlerosTables ironsworn_theme          " Built-in theme table (1d100)
 :KlerosTables ironsworn_descriptor     " Built-in descriptor table (1d100)
+:KlerosTables ironsworn_focus          " Built-in focus table (1d100)
 :KlerosTables ironsworn_prompt_build    " Built-in prompt build table (1d100)
 :KlerosTables npc                     " User-defined table (JSON)
 ```
@@ -136,6 +137,7 @@ lua/kleros/
     ├── ironsworn_action.lua  -- 100-entry action table (1d100)
     ├── ironsworn_theme.lua   -- 100-entry theme table (1d100)
     ├── ironsworn_descriptor.lua -- 100-entry descriptor table (1d100)
+    ├── ironsworn_focus.lua    -- 100-entry focus table (1d100)
     └── ironsworn_prompt_build.lua -- Prompt build table (1d100, range)
 plugin/
 └── kleros.lua        -- User commands
