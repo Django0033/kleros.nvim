@@ -28,7 +28,9 @@ function M.load_all(tables_dir)
             if not valid then
                 vim.notify("[kleros] Invalid tables: " .. err, vim.log.levels.WARN)
             else
-                M.tables[tbl.name] = tbl
+                -- Use filename (without extension) as key
+                local filename = vim.fn.fnamemodify(filepath, ":t:r")
+                M.tables[filename] = tbl
             end
         end
     end
