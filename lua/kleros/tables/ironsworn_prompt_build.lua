@@ -1,7 +1,7 @@
 local M = {}
 
-M.prompt_build = {
-    name = "Prompt Build",
+M.ironsworn_prompt_build = {
+    name = "Ironsworn Prompt Build",
     type = "range",
     dice = "1d100",
     entries = {

@@ -58,7 +58,7 @@ Output: `Rolled 2d6: [3, 5] = 8`
 :KlerosTables test_range_table   " Built-in range table (1d6)
 :KlerosTables ironsworn_action  " Built-in action table (1d100)
 :KlerosTables ironsworn_theme   " Built-in theme table (1d100)
-:KlerosTables prompt_build      " Built-in prompt build table (1d100)
+:KlerosTables ironsworn_prompt_build  " Built-in prompt build table (1d100)
 :KlerosTables npc               " User-defined table (JSON)
 ```
 
@@ -134,7 +134,7 @@ lua/kleros/
     ├── test_range_table.lua -- Example range table
     ├── ironsworn_action.lua -- 100-entry action table (1d100)
     ├── ironsworn_theme.lua  -- 100-entry theme table (1d100)
-    └── prompt_build.lua    -- Prompt build table (1d100, range)
+    └── ironsworn_prompt_build.lua -- Prompt build table (1d100, range)
 plugin/
 └── kleros.lua        -- User commands
 ```
