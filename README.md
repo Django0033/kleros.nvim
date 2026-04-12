@@ -4,7 +4,7 @@ Random tables plugin for TTRPGs in Neovim.
 
 ## Tables (Ironsworn Lodestar Extended)
 
-This plugin includes tables adapted from the **[Ironsworn Lodestar Extended](https://preview.drivethrurpg.com/en/product/303248/Ironsworn-Lodestar-Extended)** supplement, a fan-made companion to the Ironsworn TTRPG by Shawn Tompkin.
+This plugin includes tables adapted from the **[Ironsworn Lodestar Extended](https://shawn-tomkin.itch.io/ironsworn-lodestar-expanded-reference-guide)** supplement, a fan-made companion to the Ironsworn TTRPG by Shawn Tomkin.
 
 All Ironsworn tables use the `is_` prefix (e.g., `:KlerosTables is_action`).
 
