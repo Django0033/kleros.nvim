@@ -77,6 +77,7 @@ Output: `Rolled 2d6: [3, 5] = 8`
 :KlerosTables is_settlement_type.settled_lands " Ironsworn Settlement Type - Settled Lands (1d100, range)
 :KlerosTables is_settlement_type.boundary_lands " Ironsworn Settlement Type - Boundary Lands (1d100, range)
 :KlerosTables is_settlement_type.remote_lands " Ironsworn Settlement Type - Remote Lands (1d100, range)
+:KlerosTables is_settlement_condition " Ironsworn Settlement Condition (1d100, range)
 :KlerosTables is_prompt_build     " Ironsworn Prompt Build (1d100, range)
 :KlerosTables npc                 " User-defined table (JSON)
 ```
@@ -172,6 +173,7 @@ lua/kleros/
     ├── is_coastal_waters_peril.lua   -- Ironsworn Coastal Waters Peril (1d100, range)
     ├── is_coastal_waters_opportunity.lua -- Ironsworn Coastal Waters Opportunity (1d100, range)
     ├── is_settlement_type.lua -- Ironsworn Settlement Type (nested, select)
+    ├── is_settlement_condition.lua -- Ironsworn Settlement Condition (1d100, range)
     └── is_prompt_build.lua     -- Ironsworn Prompt Build (1d100, range)
 plugin/
 └── kleros.lua        -- User commands
