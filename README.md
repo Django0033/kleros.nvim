@@ -65,6 +65,7 @@ Output: `Rolled 2d6: [3, 5] = 8`
 :KlerosTables overland_peril   " Built-in overland peril table (1d100, range)
 :KlerosTables overland_opportunity " Built-in overland opportunity table (1d100, range)
 :KlerosTables coastal_waters_landmark " Built-in coastal waters landmark table (1d100, range)
+:KlerosTables coastal_waters_waypoint " Built-in coastal waters waypoint table (1d100, range)
 :KlerosTables prompt_build    " Built-in prompt build table (1d100, range)
 :KlerosTables npc               " User-defined table (JSON)
 ```
@@ -148,6 +149,7 @@ lua/kleros/
     ├── overland_peril.lua   -- Overland peril table (1d100, range)
     ├── overland_opportunity.lua -- Overland opportunity table (1d100, range)
     ├── coastal_waters_landmark.lua -- Coastal waters landmark table (1d100, range)
+    ├── coastal_waters_waypoint.lua -- Coastal waters waypoint table (1d100, range)
     └── prompt_build.lua     -- Prompt build table (1d100, range)
 plugin/
 └── kleros.lua        -- User commands
