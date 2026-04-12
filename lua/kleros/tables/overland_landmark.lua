@@ -1,7 +1,7 @@
 local M = {}
 
-M.ironsworn_overland_landmark = {
-    name = "Ironsworn Overland Landmark",
+M.overland_landmark = {
+    name = "Overland Landmark",
     type = "range",
     dice = "1d100",
     entries = {

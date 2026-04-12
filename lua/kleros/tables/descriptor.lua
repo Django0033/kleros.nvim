@@ -1,7 +1,7 @@
 local M = {}
 
-M.ironsworn_descriptor = {
-    name = "Ironsworn Descriptor",
+M.descriptor = {
+    name = "Descriptor",
     type = "simple",
     dice = "1d100",
     entries = {

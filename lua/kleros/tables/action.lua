@@ -1,7 +1,7 @@
 local M = {}
 
-M.ironsworn_action = {
-	name = "Ironsworn Action",
+M.action = {
+	name = "Action",
 	type = "simple",
 	dice = "1d100",
 	entries = {

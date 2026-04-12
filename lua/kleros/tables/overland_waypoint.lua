@@ -1,6 +1,6 @@
 local M = {}
 
-M.ironsworn_overland_waypoint = {
+M.overland_waypoint = {
     name = "Overland Waypoint",
     type = "simple",
     dice = "1d100",

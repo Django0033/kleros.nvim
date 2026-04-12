@@ -1,6 +1,6 @@
 local M = {}
 
-M.ironsworn_overland_peril = {
+M.overland_peril = {
     name = "Overland Peril",
     type = "range",
     dice = "1d100",

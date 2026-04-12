@@ -1,7 +1,7 @@
 local M = {}
 
-M.ironsworn_focus = {
-    name = "Ironsworn Focus",
+M.focus = {
+    name = "Focus",
     type = "simple",
     dice = "1d100",
     entries = {

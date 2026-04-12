@@ -1,7 +1,7 @@
 local M = {}
 
-M.ironsworn_theme = {
-    name = "Ironsworn Theme",
+M.theme = {
+    name = "Theme",
     type = "simple",
     dice = "1d100",
     entries = {
