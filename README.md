@@ -83,6 +83,7 @@ Output: `Rolled 2d6: [3, 5] = 8`
 :KlerosTables is_settlement_project " Ironsworn Settlement Project (1d100, range)
 :KlerosTables is_settlement_troubles " Ironsworn Settlement Troubles (1d100, range)
 :KlerosTables is_settlement_cultural_touchstones " Ironsworn Settlement Cultural Touchstones (1d100, range)
+:KlerosTables is_settlement_name_generator " Ironsworn Settlement Name Generator (1d100, compound)
 :KlerosTables is_prompt_build     " Ironsworn Prompt Build (1d100, range)
 :KlerosTables npc                 " User-defined table (JSON)
 ```
@@ -134,6 +135,7 @@ Create JSON files in your tables directory (default: `~/.config/nvim/kleros-tabl
 | `simple`   | `entries[total]` - index by dice roll |
 | `range`    | Match where `min <= total <= max`     |
 | `select`   | Use dot notation to pick sub-table (e.g., `table.subkey`) |
+| `compound` | Concatenate multiple elements from a single entry |
 
 ### Nested Tables (Select Type)
 
@@ -141,6 +143,11 @@ Some tables contain multiple sub-tables. Use dot notation to access:
 - `:KlerosTables is_settlement_type.settled_lands`
 - `:KlerosTables is_settlement_type.boundary_lands`
 - `:KlerosTables is_settlement_type.remote_lands`
+
+### Compound Tables
+
+Some tables combine multiple elements into one result. One dice roll retrieves multiple parts concatenated:
+- `:KlerosTables is_settlement_name_generator` → "Bright-peak"
 
 ## Table Fields
 
@@ -184,6 +191,7 @@ lua/kleros/
     ├── is_settlement_project.lua -- Ironsworn Settlement Project (1d100, range)
     ├── is_settlement_troubles.lua -- Ironsworn Settlement Troubles (1d100, range)
     ├── is_settlement_cultural_touchstones.lua -- Ironsworn Settlement Cultural Touchstones (1d100, range)
+    ├── is_settlement_name_generator.lua -- Ironsworn Settlement Name Generator (1d100, compound)
     └── is_prompt_build.lua     -- Ironsworn Prompt Build (1d100, range)
 plugin/
 └── kleros.lua        -- User commands

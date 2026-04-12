@@ -47,8 +47,24 @@ function M.table_roll(table_name)
 	local tbl_name = tbl.name
 	local tbl_type = tbl.type
 	local tbl_dice = tbl.dice
-	local _, total = dice.roll_dice(tbl.dice)
 	local entry = ""
+
+	if tbl_type == "compound" then
+		local elements = tbl.elements or 2
+		local _, total = dice.roll_dice(tbl.dice)
+		local entry_data = tbl.entries[total]
+		local parts = {}
+		for i = 1, elements do
+			local key = "element" .. i
+			if entry_data[key] then
+				table.insert(parts, entry_data[key])
+			end
+		end
+		entry = table.concat(parts)
+		return tbl_name, tbl_dice, total, entry
+	end
+
+	local _, total = dice.roll_dice(tbl.dice)
 
 	if tbl_type == "range" then
 		for _, ent in ipairs(tbl.entries) do

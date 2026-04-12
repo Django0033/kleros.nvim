@@ -22,5 +22,6 @@ M.is_settlement_first_look = require("kleros.tables.is_settlement_first_look")
 M.is_settlement_project = require("kleros.tables.is_settlement_project")
 M.is_settlement_troubles = require("kleros.tables.is_settlement_troubles")
 M.is_settlement_cultural_touchstones = require("kleros.tables.is_settlement_cultural_touchstones")
+M.is_settlement_name_generator = require("kleros.tables.is_settlement_name_generator")
 
 return M
