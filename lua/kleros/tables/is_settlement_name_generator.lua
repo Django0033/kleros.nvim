@@ -7,12 +7,12 @@ M.is_settlement_name_generator = {
 	elements = 2,
 	pools = {
 		element1 = {
-			"Lost-", "Gloom-", "Night-", "Stone-", "Bright-", "Dusk-", "White-", "Grim-", "Wrath-", "Sword-",
-			"Wyrm-", "Shield-", "Keld-", "Low-", "Troll-", "New-", "Mead-", "Drift-", "Wolf-", "Long-",
-			"Iron-", "Shale-", "Woad-", "Rock-", "Murk-", "Moon-", "Fire-", "Green-", "Gold-", "Mourn-",
-			"Forge-", "Fallow-", "Red-", "Wyrd-", "Bleak-", "Wood-", "Gray-", "Draug-", "High-", "Raven-",
-			"Deep-", "Tide-", "Ash-", "Frost-", "Dark-", "Storm-", "Ember-", "Flint-", "Thorn-", "Axe-",
-			"Black-", "Nettle-", "Broad-", "Hearth-", "Ice-", "Bitter-", "Great-", "Bear-", "Skarn-", "Shade-"
+			"Lost", "Gloom", "Night", "Stone", "Bright", "Dusk", "White", "Grim", "Wrath", "Sword",
+			"Wyrm", "Shield", "Keld", "Low", "Troll", "New", "Mead", "Drift", "Wolf", "Long",
+			"Iron", "Shale", "Woad", "Rock", "Murk", "Moon", "Fire", "Green", "Gold", "Mourn",
+			"Forge", "Fallow", "Red", "Wyrd", "Bleak", "Wood", "Gray", "Draug", "High", "Raven",
+			"Deep", "Tide", "Ash", "Frost", "Dark", "Storm", "Ember", "Flint", "Thorn", "Axe",
+			"Black", "Nettle", "Broad", "Hearth", "Ice", "Bitter", "Great", "Bear", "Skarn", "Shade"
 		},
 		element2 = {
 			"grove", "haven", "bourne", "bridge", "peak", "shard", "glade", "hold", "stead", "crest",

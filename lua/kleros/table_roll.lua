@@ -51,6 +51,7 @@ function M.table_roll(table_name)
 
 	if tbl_type == "compound" then
 		local elements = tbl.elements or 2
+		local separator = tbl.separator or ""
 		local results, total = dice.roll_dice(tbl.dice)
 		local parts = {}
 
@@ -66,7 +67,7 @@ function M.table_roll(table_name)
 					end
 				end
 			end
-			entry = table.concat(parts)
+			entry = table.concat(parts, separator)
 			-- Format total as array for compound with pools
 			total = "[" .. table.concat(results, ",") .. "]"
 			return tbl_name, tbl_dice, total, entry
@@ -80,7 +81,7 @@ function M.table_roll(table_name)
 				table.insert(parts, entry_data[key])
 			end
 		end
-		entry = table.concat(parts)
+		entry = table.concat(parts, separator)
 		return tbl_name, tbl_dice, total, entry
 	end
 
