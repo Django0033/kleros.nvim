@@ -128,6 +128,52 @@ Create JSON files in your tables directory (default: `~/.config/nvim/kleros-tabl
 }
 ```
 
+### Select Table (nested.json)
+
+```json
+{
+    "name": "My Nested Table",
+    "type": "select",
+    "entries": {
+        "region_a": {
+            "name": "Region A",
+            "type": "simple",
+            "dice": "1d6",
+            "entries": ["Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta"]
+        },
+        "region_b": {
+            "name": "Region B",
+            "type": "range",
+            "dice": "1d6",
+            "entries": [
+                { "min": 1, "max": 3, "result": "Low value" },
+                { "min": 4, "max": 6, "result": "High value" }
+            ]
+        }
+    }
+}
+```
+
+Usage: `:KlerosTables nested.region_a`
+
+### Compound Table (name_generator.json)
+
+```json
+{
+    "name": "Character Name",
+    "type": "compound",
+    "dice": "2d20",
+    "elements": 2,
+    "separator": "-",
+    "pools": {
+        "element1": ["Alric", "Bryn", "Cedric", "Doran", "Eldric"],
+        "element2": ["the Bold", "Ironhand", "of Winter", "the Swift", "of Oak"]
+    }
+}
+```
+
+Output: `tbl: Character Name 2d20=[1,3] -> Alric-the`
+
 ## Table Types
 
 | Type       | How entries are selected              |
@@ -147,7 +193,7 @@ Some tables contain multiple sub-tables. Use dot notation to access:
 ### Compound Tables
 
 Some tables combine multiple elements into one result. Multiple dice rolls retrieve multiple parts concatenated:
-- `:KlerosTables is_settlement_name_generator` → "2d60=[36,31] -> Wood-break"
+- `:KlerosTables is_settlement_name_generator` → "2d60=[36,31] -> Woodbreak"
 
 ## Table Fields
 
@@ -159,6 +205,7 @@ Some tables combine multiple elements into one result. Multiple dice rolls retri
 | `entries`  | array      | Yes        | Array of entries                         |
 | `elements` | number     | No         | Number of elements to combine (for compound) |
 | `pools`    | table      | No         | Separate element pools for compound tables |
+| `separator`| string     | No         | Separator between compound elements (default: "") |
 
 
 ## Structure
