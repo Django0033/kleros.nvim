@@ -73,6 +73,7 @@ Output: `Rolled 2d6: [3, 5] = 8`
 :KlerosTables is_coastal_waters_landmark " Ironsworn Coastal Waters Landmark (1d100, range)
 :KlerosTables is_coastal_waters_waypoint " Ironsworn Coastal Waters Waypoint (1d100, range)
 :KlerosTables is_coastal_waters_peril   " Ironsworn Coastal Waters Peril (1d100, range)
+:KlerosTables is_coastal_waters_opportunity " Ironsworn Coastal Waters Opportunity (1d100, range)
 :KlerosTables is_prompt_build     " Ironsworn Prompt Build (1d100, range)
 :KlerosTables npc                 " User-defined table (JSON)
 ```
@@ -158,6 +159,7 @@ lua/kleros/
     ├── is_coastal_waters_landmark.lua -- Ironsworn Coastal Waters Landmark (1d100, range)
     ├── is_coastal_waters_waypoint.lua -- Ironsworn Coastal Waters Waypoint (1d100, range)
     ├── is_coastal_waters_peril.lua   -- Ironsworn Coastal Waters Peril (1d100, range)
+    ├── is_coastal_waters_opportunity.lua -- Ironsworn Coastal Waters Opportunity (1d100, range)
     └── is_prompt_build.lua     -- Ironsworn Prompt Build (1d100, range)
 plugin/
 └── kleros.lua        -- User commands

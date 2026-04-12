@@ -14,5 +14,6 @@ M.is_overland_opportunity = require("kleros.tables.is_overland_opportunity")
 M.is_coastal_waters_landmark = require("kleros.tables.is_coastal_waters_landmark")
 M.is_coastal_waters_waypoint = require("kleros.tables.is_coastal_waters_waypoint")
 M.is_coastal_waters_peril = require("kleros.tables.is_coastal_waters_peril")
+M.is_coastal_waters_opportunity = require("kleros.tables.is_coastal_waters_opportunity")
 
 return M
