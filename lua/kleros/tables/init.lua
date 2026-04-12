@@ -7,5 +7,6 @@ M.ironsworn_theme = require("kleros.tables.ironsworn_theme")
 M.ironsworn_prompt_build = require("kleros.tables.ironsworn_prompt_build")
 M.ironsworn_descriptor = require("kleros.tables.ironsworn_descriptor")
 M.ironsworn_focus = require("kleros.tables.ironsworn_focus")
+M.ironsworn_overland_landmark = require("kleros.tables.ironsworn_overland_landmark")
 
 return M
