@@ -146,17 +146,19 @@ Some tables contain multiple sub-tables. Use dot notation to access:
 
 ### Compound Tables
 
-Some tables combine multiple elements into one result. One dice roll retrieves multiple parts concatenated:
-- `:KlerosTables is_settlement_name_generator` → "Bright-peak"
+Some tables combine multiple elements into one result. Multiple dice rolls retrieve multiple parts concatenated:
+- `:KlerosTables is_settlement_name_generator` → "2d60=[36,31] -> Wood-break"
 
 ## Table Fields
 
 | Field      | Type       | Required   | Description                              |
 |:-----------|:-----------|:-----------|:-----------------------------------------|
 | `name`     | string     | Yes        | Table name (used for lookup)             |
-| `type`     | string     | Yes        | 'simple' or 'range'                     |
-| `dice`     | string     | Yes        | Dice notation (e.g., '1d6', '1d100')    |
+| `type`     | string     | Yes        | 'simple', 'range', 'select', or 'compound' |
+| `dice`     | string     | Yes        | Dice notation (e.g., '1d6', '2d60')      |
 | `entries`  | array      | Yes        | Array of entries                         |
+| `elements` | number     | No         | Number of elements to combine (for compound) |
+| `pools`    | table      | No         | Separate element pools for compound tables |
 
 
 ## Structure

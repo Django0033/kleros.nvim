@@ -51,9 +51,29 @@ function M.table_roll(table_name)
 
 	if tbl_type == "compound" then
 		local elements = tbl.elements or 2
-		local _, total = dice.roll_dice(tbl.dice)
-		local entry_data = tbl.entries[total]
+		local results, total = dice.roll_dice(tbl.dice)
 		local parts = {}
+
+		-- Check if pools exist for compound tables
+		if tbl.pools then
+			for i = 1, elements do
+				local pool_key = "element" .. i
+				local pool = tbl.pools[pool_key]
+				if pool then
+					local roll_index = results[i]
+					if roll_index >= 1 and roll_index <= #pool then
+						table.insert(parts, pool[roll_index])
+					end
+				end
+			end
+			entry = table.concat(parts)
+			-- Format total as array for compound with pools
+			total = "[" .. table.concat(results, ",") .. "]"
+			return tbl_name, tbl_dice, total, entry
+		end
+
+		-- Fallback to entries-based compound (legacy behavior)
+		local entry_data = tbl.entries[results[1]]
 		for i = 1, elements do
 			local key = "element" .. i
 			if entry_data[key] then
