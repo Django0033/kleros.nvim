@@ -1,0 +1,47 @@
+local M = {}
+
+M.is_coastal_waters_peril = {
+    name = "Ironsworn Coastal Waters Peril",
+    type = "range",
+    dice = "1d100",
+    entries = {
+        { min = 1, max = 4, result = "Provisions are lost, wasted, or spoiled" },
+        { min = 5, max = 8, result = "The weather takes a turn for the worse" },
+        { min = 9, max = 12, result = "Rough seas hamper your progress" },
+        { min = 13, max = 16, result = "Lingering foul weather tests your endurance" },
+        { min = 17, max = 20, result = "A piece of important gear is damaged or broken" },
+        { min = 21, max = 23, result = "Rocky shoals or shallows slow your progress" },
+        { min = 24, max = 26, result = "Powerful currents or winds pull you off course" },
+        { min = 27, max = 29, result = "You realize something important was lost or left behind" },
+        { min = 30, max = 32, result = "An injury or old pain causes trouble" },
+        { min = 33, max = 35, result = "Fog or darkness hides a lurking danger" },
+        { min = 36, max = 38, result = "A sudden storm assails you" },
+        { min = 39, max = 41, result = "A rogue wave crashes into you" },
+        { min = 42, max = 44, result = "A critical component of your watercraft is lost or damaged" },
+        { min = 45, max = 47, result = "Disease or sickness takes hold" },
+        { min = 48, max = 50, result = "You lose your way amidst an accursed fog" },
+        { min = 51, max = 53, result = "A ship or boat is in distress" },
+        { min = 54, max = 56, result = "Your hull is fouled or leaking" },
+        { min = 57, max = 59, result = "An enemy ship closes on you" },
+        { min = 60, max = 62, result = "You are lost or off course" },
+        { min = 63, max = 65, result = "Dangerous creatures harass your watercraft" },
+        { min = 66, max = 68, result = "You encounter a monstrous sea creature" },
+        { min = 69, max = 71, result = "You are trapped in frozen seas" },
+        { min = 72, max = 74, result = "You spot a settlement or camp in crisis" },
+        { min = 75, max = 76, result = "A flying beast attacks" },
+        { min = 77, max = 78, result = "You are caught within unnatural mist or darkness" },
+        { min = 79, max = 80, result = "A blockade of ships stands in your way" },
+        { min = 81, max = 82, result = "You face a dreadful apparition or hallucination" },
+        { min = 83, max = 84, result = "A companion or fellow traveler is injured or falls ill" },
+        { min = 85, max = 86, result = "A supernatural entity seeks vengeance or absolution" },
+        { min = 87, max = 88, result = "A companion or fellow traveler draws the attention of a new danger" },
+        { min = 89, max = 90, result = "An unnatural mist or darkness surrounds you" },
+        { min = 91, max = 92, result = "A dangerous current or whirlpool takes hold" },
+        { min = 93, max = 94, result = "You run aground in shallow waters" },
+        { min = 95, max = 96, result = "A maze of rocky outcroppings or ice flows forces careful navigation" },
+        { min = 97, max = 98, result = "A companion or fellow traveler causes a delay" },
+        { min = 99, max = 100, result = "Your presence triggers a spell or supernatural anomaly" },
+    }
+}
+
+return M
