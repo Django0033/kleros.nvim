@@ -1,7 +1,7 @@
 local M = {}
 
-M.overland_peril = {
-    name = "Overland Peril",
+M.is_overland_peril = {
+    name = "Ironsworn Overland Peril",
     type = "range",
     dice = "1d100",
     entries = {

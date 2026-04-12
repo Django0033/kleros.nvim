@@ -2,6 +2,12 @@
 
 Random tables plugin for TTRPGs in Neovim.
 
+## Tables (Ironsworn Lodestar Extended)
+
+This plugin includes tables adapted from the **[Ironsworn Lodestar Extended](https://preview.drivethrurpg.com/en/product/303248/Ironsworn-Lodestar-Extended)** supplement, a fan-made companion to the Ironsworn TTRPG by Shawn Tompkin.
+
+All Ironsworn tables use the `is_` prefix (e.g., `:KlerosTables is_action`).
+
 ## Installation
 
 ### Using vim.pack (built-in)
@@ -54,23 +60,23 @@ Output: `Rolled 2d6: [3, 5] = 8`
 ### Getting Table Results
 
 ```vim
-:KlerosTables test_table              " Built-in simple table (1d6)
-:KlerosTables test_range_table        " Built-in range table (1d6)
-:KlerosTables action                " Built-in action table (1d100)
-:KlerosTables theme               " Built-in theme table (1d100)
-:KlerosTables descriptor       " Built-in descriptor table (1d100)
-:KlerosTables focus             " Built-in focus table (1d100)
-:KlerosTables overland_landmark " Built-in overland landmark table (1d100, range)
-:KlerosTables overland_waypoint " Built-in overland waypoint table (1d100)
-:KlerosTables overland_peril   " Built-in overland peril table (1d100, range)
-:KlerosTables overland_opportunity " Built-in overland opportunity table (1d100, range)
-:KlerosTables coastal_waters_landmark " Built-in coastal waters landmark table (1d100, range)
-:KlerosTables coastal_waters_waypoint " Built-in coastal waters waypoint table (1d100, range)
-:KlerosTables prompt_build    " Built-in prompt build table (1d100, range)
-:KlerosTables npc               " User-defined table (JSON)
+:KlerosTables is_test_table           " Built-in simple table (1d6)
+:KlerosTables is_test_range_table     " Built-in range table (1d6)
+:KlerosTables is_action             " Ironsworn Action table (1d100)
+:KlerosTables is_theme             " Ironsworn Theme table (1d100)
+:KlerosTables is_descriptor         " Ironsworn Descriptor table (1d100)
+:KlerosTables is_focus             " Ironsworn Focus table (1d100)
+:KlerosTables is_overland_landmark " Ironsworn Overland Landmark (1d100, range)
+:KlerosTables is_overland_waypoint " Ironsworn Overland Waypoint (1d100)
+:KlerosTables is_overland_peril       " Ironsworn Overland Peril (1d100, range)
+:KlerosTables is_overland_opportunity " Ironsworn Overland Opportunity (1d100, range)
+:KlerosTables is_coastal_waters_landmark " Ironsworn Coastal Waters Landmark (1d100, range)
+:KlerosTables is_coastal_waters_waypoint " Ironsworn Coastal Waters Waypoint (1d100, range)
+:KlerosTables is_prompt_build     " Ironsworn Prompt Build (1d100, range)
+:KlerosTables npc                 " User-defined table (JSON)
 ```
 
-Output: `tbl: Test Table 1d6=3 -> result 3`
+Output: `tbl: Ironsworn Test Table 1d6=3 -> result 3`
 
 ## User-Defined Tables
 
@@ -122,8 +128,8 @@ Create JSON files in your tables directory (default: `~/.config/nvim/kleros-tabl
 | Field      | Type       | Required   | Description                              |
 |:-----------|:-----------|:-----------|:-----------------------------------------|
 | `name`     | string     | Yes        | Table name (used for lookup)             |
-| `type`     | string     | Yes        | ''simple'' or ''range''                  |
-| `dice`     | string     | Yes        | Dice notation (e.g., ''1d6'', ''1d100'') |
+| `type`     | string     | Yes        | 'simple' or 'range'                     |
+| `dice`     | string     | Yes        | Dice notation (e.g., '1d6', '1d100')    |
 | `entries`  | array      | Yes        | Array of entries                         |
 
 
@@ -137,20 +143,20 @@ lua/kleros/
 ├── json_loader.lua   -- JSON file loader
 ├── user_tables.lua   -- User table manager
 └── tables/
-    ├── init.lua             -- Built-in tables
-    ├── test_table.lua       -- Example simple table (1d6)
-    ├── test_range_table.lua -- Example range table
-    ├── action.lua            -- 100-entry action table (1d100)
-    ├── theme.lua             -- 100-entry theme table (1d100)
-    ├── descriptor.lua       -- 100-entry descriptor table (1d100)
-    ├── focus.lua           -- 100-entry focus table (1d100)
-    ├── overland_landmark.lua -- Overland landmark table (1d100, range)
-    ├── overland_waypoint.lua  -- Overland waypoint table (1d100)
-    ├── overland_peril.lua   -- Overland peril table (1d100, range)
-    ├── overland_opportunity.lua -- Overland opportunity table (1d100, range)
-    ├── coastal_waters_landmark.lua -- Coastal waters landmark table (1d100, range)
-    ├── coastal_waters_waypoint.lua -- Coastal waters waypoint table (1d100, range)
-    └── prompt_build.lua     -- Prompt build table (1d100, range)
+    ├── init.lua                  -- Built-in tables
+    ├── is_test_table.lua        -- Example simple table (1d6)
+    ├── is_test_range_table.lua -- Example range table
+    ├── is_action.lua           -- Ironsworn Action (1d100)
+    ├── is_theme.lua            -- Ironsworn Theme (1d100)
+    ├── is_descriptor.lua       -- Ironsworn Descriptor (1d100)
+    ├── is_focus.lua            -- Ironsworn Focus (1d100)
+    ├── is_overland_landmark.lua -- Ironsworn Overland Landmark (1d100, range)
+    ├── is_overland_waypoint.lua  -- Ironsworn Overland Waypoint (1d100)
+    ├── is_overland_peril.lua   -- Ironsworn Overland Peril (1d100, range)
+    ├── is_overland_opportunity.lua -- Ironsworn Overland Opportunity (1d100, range)
+    ├── is_coastal_waters_landmark.lua -- Ironsworn Coastal Waters Landmark (1d100, range)
+    ├── is_coastal_waters_waypoint.lua -- Ironsworn Coastal Waters Waypoint (1d100, range)
+    └── is_prompt_build.lua     -- Ironsworn Prompt Build (1d100, range)
 plugin/
 └── kleros.lua        -- User commands
 ```
@@ -174,5 +180,9 @@ local table_roll = require("kleros.table_roll")
 local results, total = dice.roll_dice("2d6")
 
 -- Roll from table
-local tbl_name, tbl_dice, total, entry = table_roll.table_roll("test_table")
+local tbl_name, tbl_dice, total, entry = table_roll.table_roll("is_test_table")
 ```
+
+## License
+
+Ironsworn tables adapted from Ironsworn Lodestar Extended are fan content. Ironsworn was created by Shawn Tompkin and is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).

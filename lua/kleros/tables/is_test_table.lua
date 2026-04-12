@@ -1,7 +1,7 @@
 local M = {}
 
-M.test_table = {
-	name = "Test Table",
+M.is_test_table = {
+	name = "Ironsworn Test Table",
 	type = "simple",
 	dice = "1d6",
 	entries = {
