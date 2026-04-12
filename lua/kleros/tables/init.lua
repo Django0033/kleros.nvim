@@ -18,5 +18,6 @@ M.is_coastal_waters_opportunity = require("kleros.tables.is_coastal_waters_oppor
 M.is_settlement_type = require("kleros.tables.is_settlement_type")
 M.is_settlement_condition = require("kleros.tables.is_settlement_condition")
 M.is_settlement_disposition = require("kleros.tables.is_settlement_disposition")
+M.is_settlement_first_look = require("kleros.tables.is_settlement_first_look")
 
 return M
