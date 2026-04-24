@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_focus = {
+M.isFocus = {
     name = "Ironsworn Focus",
     type = "simple",
     dice = "1d100",

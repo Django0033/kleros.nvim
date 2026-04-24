@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_settlement_name_generator = {
+M.isSettlementNameGenerator = {
 	name = "Ironsworn Settlement Name Generator",
 	type = "compound",
 	dice = "2d60",

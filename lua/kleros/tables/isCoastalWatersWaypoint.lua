@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_coastal_waters_waypoint = {
+M.isCoastalWatersWaypoint = {
     name = "Ironsworn Coastal Waters Waypoint",
     type = "range",
     dice = "1d100",

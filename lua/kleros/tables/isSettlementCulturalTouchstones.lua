@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_settlement_cultural_touchstones = {
+M.isSettlementCulturalTouchstones = {
 	name = "Ironsworn Settlement Cultural Touchstones",
 	type = "range",
 	dice = "1d100",

@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_prompt_build = {
+M.isPromptBuild = {
     name = "Ironsworn Prompt Build",
     type = "range",
     dice = "1d100",

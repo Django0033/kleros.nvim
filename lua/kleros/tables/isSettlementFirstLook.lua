@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_settlement_first_look = {
+M.isSettlementFirstLook = {
 	name = "Ironsworn Settlement First Look",
 	type = "range",
 	dice = "1d100",

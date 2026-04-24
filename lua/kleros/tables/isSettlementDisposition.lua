@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_settlement_disposition = {
+M.isSettlementDisposition = {
 	name = "Ironsworn Settlement Disposition",
 	type = "range",
 	dice = "1d100",

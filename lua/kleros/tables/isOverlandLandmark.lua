@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_overland_landmark = {
+M.isOverlandLandmark = {
     name = "Ironsworn Overland Landmark",
     type = "range",
     dice = "1d100",

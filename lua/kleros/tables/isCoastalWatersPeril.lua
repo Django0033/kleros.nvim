@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_coastal_waters_peril = {
+M.isCoastalWatersPeril = {
     name = "Ironsworn Coastal Waters Peril",
     type = "range",
     dice = "1d100",

@@ -1,10 +1,10 @@
 local M = {}
 
-M.is_settlement_type = {
+M.isSettlementType = {
 	name = "Ironsworn Settlement Type",
 	type = "select",
 	entries = {
-		settled_lands = {
+		settledLands = {
 			name = "Settled Lands",
 			type = "range",
 			dice = "1d100",
@@ -41,7 +41,7 @@ M.is_settlement_type = {
 				},
 			},
 		},
-		boundary_lands = {
+		boundaryLands = {
 			name = "Boundary Lands",
 			type = "range",
 			dice = "1d100",
@@ -78,7 +78,7 @@ M.is_settlement_type = {
 				},
 			},
 		},
-		remote_lands = {
+		remoteLands = {
 			name = "Remote Lands",
 			type = "range",
 			dice = "1d100",

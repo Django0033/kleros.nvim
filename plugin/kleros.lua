@@ -11,21 +11,28 @@ local function get_table_completion(arglead, cmdline, cursor)
 
 	-- If dot notation, get sub-keys from nested table
 	if main_table then
-		local builtin_ok, builtin = pcall(require, "kleros.tables." .. main_table)
+		-- First try to find by key in tables index
+		local builtin_ok, builtin = pcall(require, "kleros.tables")
 		if builtin_ok and builtin then
-			local tbl = builtin[main_table]
-			if tbl and tbl.entries then
-				for key, _ in pairs(tbl.entries) do
-					local full_key = main_table .. "." .. key
-					if subkey_prefix == "" or key:lower():match("^" .. subkey_prefix:lower()) then
-						table.insert(all_tables, full_key)
+			for tbl_key, tbl_module in pairs(builtin) do
+				local t = tbl_module[tbl_key]
+				-- Match by key (case-insensitive)
+				if t and tbl_key:lower() == main_table:lower() then
+					if t and t.entries and t.type == "select" then
+						for key, _ in pairs(t.entries) do
+							local full_key = main_table .. "." .. key
+							if subkey_prefix == "" or key:lower():find(subkey_prefix:lower(), 1, true) then
+								table.insert(all_tables, full_key)
+							end
+						end
 					end
+					break
 				end
 			end
 		end
 	-- Normal completion (no dot)
 	else
-		-- Built-in tables (use key = filename)
+		-- Built-in tables (use key from index)
 		local builtin_ok, builtin = pcall(require, "kleros.tables")
 		if builtin_ok and builtin then
 			for key, _ in pairs(builtin) do
@@ -49,7 +56,7 @@ local function get_table_completion(arglead, cmdline, cursor)
 		if arglead and arglead ~= "" then
 			local filtered = {}
 			for _, v in ipairs(all_tables) do
-				if v:lower():match("^" .. arglead:lower()) then
+				if v:lower():find(arglead:lower(), 1, true) then
 					table.insert(filtered, v)
 				end
 			end
@@ -61,15 +68,7 @@ local function get_table_completion(arglead, cmdline, cursor)
 	return all_tables
 end
 
-vim.api.nvim_create_user_command("KlerosRoll", function(opts)
-	local expr = opts.args or "d20"
-	local dice = require("kleros.dice")
-	local results, total = dice.roll_dice(expr)
-
-	print(string.format("Rolled %s: [%s] = %d", expr, table.concat(results, ", "), total))
-end, { nargs = "?" })
-
-vim.api.nvim_create_user_command("KlerosTables", function(opts)
+vim.api.nvim_create_user_command("Kleros", function(opts)
 	local tbl = opts.args
 	local tbl_name, tbl_dice, total, entry = require("kleros.table_roll").table_roll(tbl)
 
@@ -78,5 +77,9 @@ vim.api.nvim_create_user_command("KlerosTables", function(opts)
 		return
 	end
 
-	print(string.format("tbl: %s %s=%s -> %s", tbl_name, tbl_dice, total, entry))
+	if tbl_dice == "" then
+		print(tbl_name .. ": " .. entry)
+	else
+		print(string.format("tbl: %s %s=%s -> %s", tbl_name, tbl_dice, total, entry))
+	end
 end, { nargs = "?", complete = get_table_completion })

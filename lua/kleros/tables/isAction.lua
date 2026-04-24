@@ -1,6 +1,6 @@
 local M = {}
 
-M.is_action = {
+M.isAction = {
 	name = "Ironsworn Action",
 	type = "simple",
 	dice = "1d100",
