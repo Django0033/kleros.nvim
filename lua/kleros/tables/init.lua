@@ -28,5 +28,10 @@ M.isCharacterFirstLook = require("kleros.tables.isCharacterFirstLook")
 M.isCharacterDisposition = require("kleros.tables.isCharacterDisposition")
 M.isCharacterRole = require("kleros.tables.isCharacterRole")
 M.isCharacterGoal = require("kleros.tables.isCharacterGoal")
+M.isDelveSiteName = require("kleros.tables.isDelveSiteName")
+M.isDelveSiteNameDescription = require("kleros.tables.isDelveSiteNameDescription")
+M.isDelveSiteNameDetail = require("kleros.tables.isDelveSiteNameDetail")
+M.isDelveSiteNameNamesake = require("kleros.tables.isDelveSiteNameNamesake")
+M.isDelveSiteNamePlace = require("kleros.tables.isDelveSiteNamePlace")
 
 return M
