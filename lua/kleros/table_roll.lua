@@ -29,21 +29,37 @@ local function find_parent_key(tbl, tables_index)
 	return ""
 end
 
-local function find_sub_table_by_name(sub_name, parent_key, tables_index)
-	if not tables_index then return nil end
-	local search_patterns = {
-		parent_key .. sub_name,
-		sub_name,
-	}
+local function find_sub_table_by_name(sub_name, parent_key, tables_index, parent_tbl)
+	if not sub_name then return nil end
+	local sub_tbl = nil
 
-	for tbl_key, tbl_module in pairs(tables_index) do
-		for _, pattern in ipairs(search_patterns) do
-			if tbl_key:lower() == pattern:lower() then
-				return tbl_module[tbl_key]
+	if parent_tbl and parent_tbl.sub_tables then
+		for key, val in pairs(parent_tbl.sub_tables) do
+			if key:lower() == sub_name:lower() then
+				sub_tbl = val
+				break
 			end
 		end
 	end
-	return nil
+
+	if not sub_tbl and tables_index then
+		local search_patterns = {
+			parent_key .. sub_name,
+			sub_name,
+		}
+
+		for tbl_key, tbl_module in pairs(tables_index) do
+			for _, pattern in ipairs(search_patterns) do
+				if tbl_key:lower() == pattern:lower() then
+					sub_tbl = tbl_module[tbl_key]
+					break
+				end
+			end
+			if sub_tbl then break end
+		end
+	end
+
+	return sub_tbl
 end
 
 local function roll_sub_table(sub_tbl)
@@ -158,7 +174,7 @@ function M.table_roll(table_name)
 
 			if sub_table_name == "Place" then
 				local parent_key = find_parent_key(tbl, tables_index)
-				local place_tbl = find_sub_table_by_name("Place", parent_key, tables_index)
+				local place_tbl = find_sub_table_by_name("Place", parent_key, tables_index, tbl)
 
 				if place_tbl then
 					local _, place_total = dice.roll_dice(place_tbl.dice)
@@ -192,7 +208,7 @@ function M.table_roll(table_name)
 				end
 			else
 				local parent_key = find_parent_key(tbl, tables_index)
-				local sub_tbl = find_sub_table_by_name(sub_table_name, parent_key, tables_index)
+				local sub_tbl = find_sub_table_by_name(sub_table_name, parent_key, tables_index, tbl)
 
 				if sub_tbl then
 					sub_result = roll_sub_table(sub_tbl)
