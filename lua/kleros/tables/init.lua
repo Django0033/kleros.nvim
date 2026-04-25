@@ -23,5 +23,7 @@ M.isSettlementProject = require("kleros.tables.isSettlementProject")
 M.isSettlementTroubles = require("kleros.tables.isSettlementTroubles")
 M.isSettlementCulturalTouchstones = require("kleros.tables.isSettlementCulturalTouchstones")
 M.isSettlementNameGenerator = require("kleros.tables.isSettlementNameGenerator")
+M.isCharacterActivity = require("kleros.tables.isCharacterActivity")
+M.isCharacterFirstLook = require("kleros.tables.isCharacterFirstLook")
 
 return M
