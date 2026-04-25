@@ -21,6 +21,73 @@ function M.load_file(path)
 	return decoded, nil
 end
 
+local function validate_entries(tbl, entry_type)
+	if not tbl.entries or type(tbl.entries) ~= "table" then
+		return false, "Error: missing 'entries' field"
+	end
+
+	if entry_type == "array" then
+		for i, v in ipairs(tbl.entries) do
+			if type(v) ~= "string" then
+				return false, "Error: entries must be strings"
+			end
+		end
+	elseif entry_type == "range" then
+		for i, ent in ipairs(tbl.entries) do
+			if type(ent) ~= "table" or not ent.min or not ent.max or not ent.result then
+				return false, "Error: entries must have min, max, result"
+			end
+		end
+	end
+
+	return true, nil
+end
+
+local validators = {
+	simple = function(tbl)
+		if not tbl.dice or type(tbl.dice) ~= "string" then
+			return false, "Error: missing 'dice' field"
+		end
+		return validate_entries(tbl, "array")
+	end,
+
+	range = function(tbl)
+		if not tbl.dice or type(tbl.dice) ~= "string" then
+			return false, "Error: missing 'dice' field"
+		end
+		return validate_entries(tbl, "range")
+	end,
+
+	select = function(tbl)
+		return validate_entries(tbl, "select")
+	end,
+
+	compound = function(tbl)
+		if not tbl.entries or type(tbl.entries) ~= "table" then
+			return false, "Error: missing 'entries' field"
+		end
+		if tbl.pools and type(tbl.pools) ~= "table" then
+			return false, "Error: 'pools' must be a table"
+		end
+		return true, nil
+	end,
+
+	procedural = function(tbl)
+		if tbl.template and type(tbl.template) == "string" then
+			return true, nil
+		end
+		if not tbl.entries or type(tbl.entries) ~= "table" then
+			return false, "Error: procedural requires 'template' or 'entries'"
+		end
+		for _, entry in ipairs(tbl.entries) do
+			if not entry.template or type(entry.template) ~= "string" then
+				return false, "Error: entries require 'template' field"
+			end
+		end
+		return true, nil
+	end,
+}
+
 function M.validate_table(tbl)
 	if type(tbl) ~= "table" then
 		return false, "Error: table must be a table"
@@ -42,70 +109,12 @@ function M.validate_table(tbl)
 			break
 		end
 	end
+
 	if not is_valid_type then
 		return false, "Error: type must be 'simple', 'range', 'select', 'compound', or 'procedural'"
 	end
 
-	if tbl.type == "procedural" then
-		if not tbl.entries or type(tbl.entries) ~= "table" then
-			return false, "Error: procedural tables require 'entries' field"
-		end
-		for _, entry in ipairs(tbl.entries) do
-			if not entry.template or type(entry.template) ~= "string" then
-				return false, "Error: procedural entries require 'template' field"
-			end
-		end
-		if tbl.sub_tables then
-			if type(tbl.sub_tables) ~= "table" then
-				return false, "Error: 'sub_tables' must be a table"
-			end
-			for sub_name, sub_tbl in pairs(tbl.sub_tables) do
-				if type(sub_tbl) ~= "table" then
-					return false, "Error: sub_table '" .. sub_name .. "' must be a table"
-				end
-				if not sub_tbl.name then
-					return false, "Error: sub_table '" .. sub_name .. "' requires 'name' field"
-				end
-				if not sub_tbl.type then
-					return false, "Error: sub_table '" .. sub_name .. "' requires 'type' field"
-				end
-				if not sub_tbl.dice then
-					return false, "Error: sub_table '" .. sub_name .. "' requires 'dice' field"
-				end
-				if not sub_tbl.entries then
-					return false, "Error: sub_table '" .. sub_name .. "' requires 'entries' field"
-				end
-			end
-		end
-		return true, nil
-	end
-
-	if tbl.type == "compound" then
-		if not tbl.entries or type(tbl.entries) ~= "table" then
-			return false, "Error: compound tables require 'entries' field"
-		end
-		if tbl.pools and type(tbl.pools) ~= "table" then
-			return false, "Error: 'pools' must be a table"
-		end
-		return true, nil
-	end
-
-	if tbl.type == "select" then
-		if not tbl.entries or type(tbl.entries) ~= "table" then
-			return false, "Error: select tables require 'entries' field"
-		end
-		return true, nil
-	end
-
-	if not tbl.dice or type(tbl.dice) ~= "string" then
-		return false, "Error: missing or invalid 'dice' field"
-	end
-
-	if not tbl.entries or type(tbl.entries) ~= "table" then
-		return false, "Error: missing or invalid 'entries' field"
-	end
-
-	return true, nil
+	return validators[tbl.type](tbl)
 end
 
 return M

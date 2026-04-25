@@ -1,37 +1,11 @@
 local M = {}
 
-M.isTestTable = require("kleros.tables.isTestTable")
-M.isTestRangeTable = require("kleros.tables.isTestRangeTable")
-M.isAction = require("kleros.tables.isAction")
-M.isTheme = require("kleros.tables.isTheme")
-M.isPromptBuild = require("kleros.tables.isPromptBuild")
-M.isDescriptor = require("kleros.tables.isDescriptor")
-M.isFocus = require("kleros.tables.isFocus")
-M.isOverlandLandmark = require("kleros.tables.isOverlandLandmark")
-M.isOverlandWaypoint = require("kleros.tables.isOverlandWaypoint")
-M.isOverlandPeril = require("kleros.tables.isOverlandPeril")
-M.isOverlandOpportunity = require("kleros.tables.isOverlandOpportunity")
-M.isCoastalWatersLandmark = require("kleros.tables.isCoastalWatersLandmark")
-M.isCoastalWatersWaypoint = require("kleros.tables.isCoastalWatersWaypoint")
-M.isCoastalWatersPeril = require("kleros.tables.isCoastalWatersPeril")
-M.isCoastalWatersOpportunity = require("kleros.tables.isCoastalWatersOpportunity")
-M.isSettlementType = require("kleros.tables.isSettlementType")
-M.isSettlementCondition = require("kleros.tables.isSettlementCondition")
-M.isSettlementDisposition = require("kleros.tables.isSettlementDisposition")
-M.isSettlementFirstLook = require("kleros.tables.isSettlementFirstLook")
-M.isSettlementProject = require("kleros.tables.isSettlementProject")
-M.isSettlementTroubles = require("kleros.tables.isSettlementTroubles")
-M.isSettlementCulturalTouchstones = require("kleros.tables.isSettlementCulturalTouchstones")
-M.isSettlementNameGenerator = require("kleros.tables.isSettlementNameGenerator")
-M.isCharacterActivity = require("kleros.tables.isCharacterActivity")
-M.isCharacterFirstLook = require("kleros.tables.isCharacterFirstLook")
-M.isCharacterDisposition = require("kleros.tables.isCharacterDisposition")
-M.isCharacterRole = require("kleros.tables.isCharacterRole")
-M.isCharacterGoal = require("kleros.tables.isCharacterGoal")
-M.isDelveSiteName = require("kleros.tables.isDelveSiteName")
-M.isDelveSiteNameDescription = require("kleros.tables.isDelveSiteNameDescription")
-M.isDelveSiteNameDetail = require("kleros.tables.isDelveSiteNameDetail")
-M.isDelveSiteNameNamesake = require("kleros.tables.isDelveSiteNameNamesake")
-M.isDelveSiteNamePlace = require("kleros.tables.isDelveSiteNamePlace")
+local tables_dir = vim.fn.fnamemodify(debug.getinfo(1).source:match("@?(.*)"), ":h")
+for _, f in ipairs(vim.split(vim.fn.glob(tables_dir .. "/*.lua"), "\n")) do
+	local name = f:match("([^/]+)%.lua$")
+	if name and name ~= "init" then
+		M[name] = require("kleros.tables." .. name)
+	end
+end
 
 return M
