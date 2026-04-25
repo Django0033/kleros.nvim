@@ -50,20 +50,22 @@ require("kleros").setup({
 ### Getting Table Results
 
 ```vim
-:Kleros isAction             " Ironsworn Action table (1d100)
-:Kleros isTheme             " Ironsworn Theme table (1d100)
-:Kleros isDescriptor         " Ironsworn Descriptor table (1d100)
-:Kleros isFocus             " Ironsworn Focus table (1d100)
+:Kleros isAction             " Ironsworn Action (1d100, simple)
+:Kleros isTheme             " Ironsworn Theme (1d100, simple)
+:Kleros isDescriptor         " Ironsworn Descriptor (1d100, simple)
+:Kleros isFocus             " Ironsworn Focus (1d100, simple)
 :Kleros isPromptBuild       " Ironsworn Prompt Build (1d100, range)
+:Kleros isCharacterActivity  " Ironsworn Character Activity (1d100, range)
+:Kleros isCharacterFirstLook " Ironsworn Character First Look (1d100, range)
 :Kleros isOverlandLandmark  " Ironsworn Overland Landmark (1d100, range)
-:Kleros isOverlandWaypoint  " Ironsworn Overland Waypoint (1d100)
+:Kleros isOverlandWaypoint  " Ironsworn Overland Waypoint (1d100, simple)
 :Kleros isOverlandPeril     " Ironsworn Overland Peril (1d100, range)
 :Kleros isOverlandOpportunity " Ironsworn Overland Opportunity (1d100, range)
 :Kleros isCoastalWatersLandmark  " Ironsworn Coastal Waters Landmark (1d100, range)
 :Kleros isCoastalWatersWaypoint  " Ironsworn Coastal Waters Waypoint (1d100, range)
 :Kleros isCoastalWatersPeril    " Ironsworn Coastal Waters Peril (1d100, range)
 :Kleros isCoastalWatersOpportunity " Ironsworn Coastal Waters Opportunity (1d100, range)
-:Kleros isSettlementType           " Ironsworn Settlement Type (select, nested)
+:Kleros isSettlementType           " Ironsworn Settlement Type (select)
 :Kleros isSettlementType.settledLands    " Settled Lands (1d100, range)
 :Kleros isSettlementType.boundaryLands   " Boundary Lands (1d100, range)
 :Kleros isSettlementType.remoteLands    " Remote Lands (1d100, range)
@@ -166,22 +168,22 @@ Output: `tbl: Character Name 2d20=[1,3] -> Alric-the`
 ## Table Types
 
 | Type       | How entries are selected              |
-|:-----------|:----------------------------------|
+|:-----------|:-----------------------------------|
 | `simple`   | `entries[total]` - index by dice roll |
 | `range`    | Match where `min <= total <= max`     |
-| `select`   | Use dot notation to pick sub-table (e.g., `table.subkey`) |
-| `compound` | Concatenate multiple elements from a single entry |
+| `select`   | Use dot notation to pick sub-table  |
+| `compound` | Concatenate multiple elements      |
 
 ### Nested Tables (Select Type)
 
-Some tables contain multiple sub-tables. Use dot notation to access:
+Some tables contain multiple sub-tables. Use dot notation:
 - `:Kleros isSettlementType.settledLands`
 - `:Kleros isSettlementType.boundaryLands`
 - `:Kleros isSettlementType.remoteLands`
 
 ### Compound Tables
 
-Some tables combine multiple elements into one result. Multiple dice rolls retrieve multiple parts concatenated:
+Concatenate multiple elements from pools:
 - `:Kleros isSettlementNameGenerator` → "2d60=[36,31] -> Woodbreak"
 
 ## Table Fields
@@ -194,7 +196,7 @@ Some tables combine multiple elements into one result. Multiple dice rolls retri
 | `entries`  | array      | Yes       | Array of entries                         |
 | `elements` | number     | No        | Number of elements to combine (for compound) |
 | `pools`    | table      | No        | Separate element pools for compound tables |
-| `separator`| string     | No        | Separator between compound elements (default: "") |
+| `separator`| string     | No        | Separator between compound elements       |
 
 
 ## Structure
@@ -202,26 +204,28 @@ Some tables combine multiple elements into one result. Multiple dice rolls retri
 ```
 lua/kleros/
 ├── init.lua          -- Entry point with setup()
-├── dice.lua       -- Dice rolling engine
-├── table_roll.lua  -- Table rolling logic
+├── dice.lua         -- Dice rolling engine
+├── table_roll.lua   -- Table rolling logic
 ├── json_loader.lua  -- JSON file loader
 ├── user_tables.lua  -- User table manager
 └── tables/
     ├── init.lua                  -- Built-in tables index
-    ├── isAction.lua           -- Ironsworn Action (1d100)
-    ├── isTheme.lua            -- Ironsworn Theme (1d100)
-    ├── isDescriptor.lua       -- Ironsworn Descriptor (1d100)
-    ├── isFocus.lua           -- Ironsworn Focus (1d100)
-    ├── isPromptBuild.lua     -- Ironsworn Prompt Build (1d100, range)
+    ├── isAction.lua             -- Ironsworn Action (1d100, simple)
+    ├── isTheme.lua              -- Ironsworn Theme (1d100, simple)
+    ├── isDescriptor.lua        -- Ironsworn Descriptor (1d100, simple)
+    ├── isFocus.lua            -- Ironsworn Focus (1d100, simple)
+    ├── isPromptBuild.lua      -- Ironsworn Prompt Build (1d100, range)
+    ├── isCharacterActivity.lua -- Ironsworn Character Activity (1d100, range)
+    ├── isCharacterFirstLook.lua -- Ironsworn Character First Look (1d100, range)
     ├── isOverlandLandmark.lua  -- Ironsworn Overland Landmark (1d100, range)
-    ├── isOverlandWaypoint.lua  -- Ironsworn Overland Waypoint (1d100)
+    ├── isOverlandWaypoint.lua  -- Ironsworn Overland Waypoint (1d100, simple)
     ├── isOverlandPeril.lua    -- Ironsworn Overland Peril (1d100, range)
     ├── isOverlandOpportunity.lua -- Ironsworn Overland Opportunity (1d100, range)
     ├── isCoastalWatersLandmark.lua  -- Ironsworn Coastal Waters Landmark (1d100, range)
     ├── isCoastalWatersWaypoint.lua  -- Ironsworn Coastal Waters Waypoint (1d100, range)
     ├── isCoastalWatersPeril.lua    -- Ironsworn Coastal Waters Peril (1d100, range)
     ├── isCoastalWatersOpportunity.lua -- Ironsworn Coastal Waters Opportunity (1d100, range)
-    ├── isSettlementType.lua -- Ironsworn Settlement Type (nested, select)
+    ├── isSettlementType.lua -- Ironsworn Settlement Type (select)
     ├── isSettlementCondition.lua -- Ironsworn Settlement Condition (1d100, range)
     ├── isSettlementDisposition.lua -- Ironsworn Settlement Disposition (1d100, range)
     ├── isSettlementFirstLook.lua -- Ironsworn Settlement First Look (1d100, range)
