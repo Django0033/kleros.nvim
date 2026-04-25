@@ -1,0 +1,41 @@
+local M = {}
+
+M.isCharacterRole = {
+	name = "Ironsworn Character Role",
+	type = "range",
+	dice = "1d100",
+	entries = {
+		{ min = 1, max = 2, result = "Criminal" },
+		{ min = 3, max = 4, result = "Healer" },
+		{ min = 5, max = 6, result = "Bandit" },
+		{ min = 7, max = 9, result = "Guide" },
+		{ min = 10, max = 12, result = "Performer" },
+		{ min = 13, max = 15, result = "Miner" },
+		{ min = 16, max = 18, result = "Mercenary" },
+		{ min = 19, max = 21, result = "Outcast" },
+		{ min = 22, max = 24, result = "Vagrant" },
+		{ min = 25, max = 27, result = "Forester" },
+		{ min = 28, max = 30, result = "Traveler" },
+		{ min = 31, max = 33, result = "Mystic" },
+		{ min = 34, max = 36, result = "Priest" },
+		{ min = 37, max = 39, result = "Sailor" },
+		{ min = 40, max = 42, result = "Pilgrim" },
+		{ min = 43, max = 45, result = "Thief" },
+		{ min = 46, max = 48, result = "Adventurer" },
+		{ min = 49, max = 51, result = "Forager" },
+		{ min = 52, max = 54, result = "Leader" },
+		{ min = 55, max = 58, result = "Guard" },
+		{ min = 59, max = 62, result = "Artisan" },
+		{ min = 63, max = 66, result = "Scout" },
+		{ min = 67, max = 70, result = "Herder" },
+		{ min = 71, max = 74, result = "Fisher" },
+		{ min = 75, max = 79, result = "Warrior" },
+		{ min = 80, max = 84, result = "Hunter" },
+		{ min = 85, max = 89, result = "Raider" },
+		{ min = 90, max = 94, result = "Trader" },
+		{ min = 95, max = 99, result = "Farmer" },
+		{ min = 100, max = 100, result = "Unusual role" },
+	},
+}
+
+return M

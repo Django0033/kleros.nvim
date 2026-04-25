@@ -26,5 +26,6 @@ M.isSettlementNameGenerator = require("kleros.tables.isSettlementNameGenerator")
 M.isCharacterActivity = require("kleros.tables.isCharacterActivity")
 M.isCharacterFirstLook = require("kleros.tables.isCharacterFirstLook")
 M.isCharacterDisposition = require("kleros.tables.isCharacterDisposition")
+M.isCharacterRole = require("kleros.tables.isCharacterRole")
 
 return M
