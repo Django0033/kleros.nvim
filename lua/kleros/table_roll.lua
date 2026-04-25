@@ -51,21 +51,41 @@ local function roll_simple_or_range(tbl)
 	return total, entry
 end
 
+local function is_list(tbl)
+	if type(tbl) ~= "table" then return false end
+	local count = 0
+	for _ in pairs(tbl) do count = count + 1 end
+	local has_numeric = false
+	for k, _ in pairs(tbl) do
+		if type(k) == "number" then
+			has_numeric = true
+			break
+		end
+	end
+	return has_numeric and count > 0
+end
+
 local function find_sub_table(sub_name, parent_tbl, tables_index)
 	if not sub_name then return nil end
 
+	local sub_name_clean = sub_name:gsub("[+-]", "")
+	local sub_name_lower = sub_name_clean:lower()
+
 	if parent_tbl and parent_tbl.sub_tables then
-		if vim.fn.islist(parent_tbl.sub_tables) == 1 then
+		if is_list(parent_tbl.sub_tables) then
 			for _, val in ipairs(parent_tbl.sub_tables) do
-				if type(val) == "string" and val:lower() == sub_name:lower() then
-					if tables_index and tables_index[val] then
-						return tables_index[val][val]
+				if type(val) == "string" then
+					local val_lower = val:lower()
+					if val_lower == sub_name_lower or val_lower:match(sub_name_lower) or sub_name_lower:match(val_lower) then
+						if tables_index and tables_index[val] then
+							return tables_index[val][val]
+						end
 					end
 				end
 			end
 		else
 			for key, val in pairs(parent_tbl.sub_tables) do
-				if key:lower() == sub_name:lower() then
+				if key:lower() == sub_name_lower then
 					if type(val) == "string" and tables_index and tables_index[val] then
 						return tables_index[val][val]
 					end
@@ -76,7 +96,6 @@ local function find_sub_table(sub_name, parent_tbl, tables_index)
 	end
 
 	if tables_index then
-		local sub_name_lower = sub_name:lower()
 		for tbl_key, tbl_module in pairs(tables_index) do
 			local tbl_key_lower = tbl_key:lower()
 			if tbl_key_lower == sub_name_lower then
@@ -85,7 +104,7 @@ local function find_sub_table(sub_name, parent_tbl, tables_index)
 		end
 		for tbl_key, tbl_module in pairs(tables_index) do
 			local tbl_key_lower = tbl_key:lower()
-			if tbl_key_lower:match(sub_name_lower) then
+			if tbl_key_lower:match(sub_name_lower) or sub_name_lower:match(tbl_key_lower) then
 				return tbl_module[tbl_key]
 			end
 		end
@@ -158,9 +177,61 @@ local function resolve_place(tbl, tables_index)
 	return nil
 end
 
-local function resolve_procedural(tbl, tables_index)
-	local _, total = dice.roll_dice(tbl.dice)
+local function roll_with_advantage(dice_expr, advantage)
+	if not advantage or advantage == "normal" then
+		return dice.roll_dice(dice_expr)
+	end
+
+	local sides = dice_expr:match("1d(%d+)")
+	sides = tonumber(sides) or 100
+
+	local r1 = math.random(1, sides)
+	local r2 = math.random(1, sides)
+	local total = (advantage == "advantage") and math.max(r1, r2) or math.min(r1, r2)
+
+	return { r1, r2 }, total
+end
+
+local function resolve_syllable3(sub_name, tables_index)
+	local base_name = sub_name:gsub("[+-]", "")
+	local modifier = sub_name:match("[+-]")
+
+	local sub_tbl = find_sub_table(base_name, nil, tables_index)
+	if not sub_tbl then return nil end
+
+	local dice_expr = sub_tbl.dice
+	local roll_total
+
+	if modifier == "-" then
+		roll_total = math.random(1, 10)
+	elseif modifier == "+" then
+		roll_total = math.random(1, 10) + 10
+	else
+		roll_total = math.random(1, 20)
+	end
+
+	return sub_tbl.entries[roll_total] or ""
+end
+
+local function clean_result(result, is_first)
+	if is_first then
+		return (result or ""):gsub("%([^)]*%)", "")
+	else
+		return (result or ""):gsub("%(", ""):gsub("%)", "")
+	end
+end
+
+local function resolve_procedural(tbl, tables_index, advantage)
+	local results, total
+
+	if advantage and advantage ~= "normal" then
+		results, total = roll_with_advantage(tbl.dice, advantage)
+	else
+		results, total = dice.roll_dice(tbl.dice)
+	end
+
 	local template = nil
+	local vowel_suffix = nil
 
 	if tbl.template then
 		template = tbl.template
@@ -177,15 +248,28 @@ local function resolve_procedural(tbl, tables_index)
 		return total, ERROR_PREFIX .. " invalid procedural table"
 	end
 
-	local result = template
+	if template:match("[oai]$") then
+		vowel_suffix = template:match("[oai]$")
+		template = template:gsub("[oai]$", "")
+	end
 
-	for placeholder in template:gmatch("%[([^%]]+)%]") do
+	local result = template
+	local is_first = true
+
+	while result:find("%[") do
+		local placeholder_start = result:find("%[")
+		local placeholder_end = result:find("]", placeholder_start)
+		if not placeholder_end then break end
+
+		local placeholder = result:sub(placeholder_start + 1, placeholder_end - 1)
 		local is_possessive = placeholder:match("'s$")
 		local sub_name = is_possessive and placeholder:gsub("'s$", "") or placeholder
 		local sub_result = nil
 
 		if sub_name == PLACEHOLDER then
 			sub_result = resolve_place(tbl, tables_index)
+		elseif sub_name:lower():match("syllable3") then
+			sub_result = resolve_syllable3(sub_name, tables_index)
 		else
 			local sub_tbl = find_sub_table(sub_name, tbl, tables_index)
 			if sub_tbl then
@@ -194,12 +278,23 @@ local function resolve_procedural(tbl, tables_index)
 		end
 
 		if sub_result then
+			sub_result = clean_result(sub_result, is_first)
+			is_first = false
 			if is_possessive then
 				sub_result = sub_result .. "'s"
 			end
-			local escaped = placeholder:gsub("'", "\\'")
-			result = result:gsub("%[" .. escaped .. "%]", sub_result)
+			result = result:sub(1, placeholder_start - 1) .. sub_result .. result:sub(placeholder_end + 1)
+		else
+			result = result:sub(1, placeholder_start - 1) .. result:sub(placeholder_end + 1)
 		end
+	end
+
+if vowel_suffix then
+		result = result .. vowel_suffix
+	end
+
+	if result ~= "" then
+		result = result:sub(1, 1):upper() .. result:sub(2)
 	end
 
 	return total, result
@@ -234,17 +329,33 @@ local function roll_compound(tbl)
 	return total, table.concat(parts, separator)
 end
 
+local function parse_table_name(table_name)
+	local base_name = table_name
+	local advantage = "normal"
+
+	if table_name:match("%!$") then
+		base_name = table_name:gsub("%!$", "")
+		advantage = "advantage"
+	elseif table_name:match("%?$") then
+		base_name = table_name:gsub("%?$", "")
+		advantage = "disadvantage"
+	end
+
+	local subkey = nil
+	if base_name:match("%.") then
+		subkey = base_name:match("%.(.+)$")
+		base_name = base_name:match("^([^%.]+)")
+	end
+
+	return base_name, subkey, advantage
+end
+
 function M.table_roll(table_name)
 	if not table_name or table_name == "" then
 		return nil, nil, nil, ERROR_PREFIX .. " table name required"
 	end
 
-	local subkey = nil
-	local search_name = table_name
-	if table_name:match("%.") then
-		subkey = table_name:match("%.(.+)$")
-		search_name = table_name:match("^([^%.]+)")
-	end
+	local search_name, subkey, advantage = parse_table_name(table_name)
 
 	local builtin_ok, builtin = pcall(require, "kleros.tables")
 	local tables_index = builtin_ok and builtin or {}
@@ -282,7 +393,7 @@ function M.table_roll(table_name)
 	local tbl_dice = tbl.dice
 
 	if tbl.type == "procedural" then
-		local total, result = resolve_procedural(tbl, tables_index)
+		local total, result = resolve_procedural(tbl, tables_index, advantage)
 		return tbl_name, tbl_dice, total, result
 	end
 

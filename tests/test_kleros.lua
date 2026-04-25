@@ -80,6 +80,14 @@ test("isSettlementType.settledLands", "isSettlementType.settledLands", nil)
 test("isSettlementType.boundaryLands", "isSettlementType.boundaryLands", nil)
 test("isSettlementType.remoteLands", "isSettlementType.remoteLands", nil)
 
+print("\n--- Juice System ---")
+test("jSyllable1", "jSyllable1", nil)
+test("jSyllable2", "jSyllable2", nil)
+test("jSyllable3", "jSyllable3", nil)
+test("jNameGenerator", "jNameGenerator", nil)
+test("jNameGenerator advantage", "jNameGenerator!", nil)
+test("jNameGenerator disadvantage", "jNameGenerator?", nil)
+
 print("\n--- Error Cases ---")
 test("invalid_table", "invalidTable", "^Error:")
 
