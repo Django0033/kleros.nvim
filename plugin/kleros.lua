@@ -77,9 +77,13 @@ vim.api.nvim_create_user_command("Kleros", function(opts)
 		return
 	end
 
+	local display_text
 	if tbl_dice == "" then
-		print(tbl_name .. ": " .. entry)
+		display_text = tbl_name .. ": " .. entry
 	else
-		print(string.format("tbl: %s %s=%s -> %s", tbl_name, tbl_dice, total, entry))
+		display_text = string.format("tbl: %s %s=%s -> %s", tbl_name, tbl_dice, total, entry)
 	end
+
+	print(display_text)
+	require("kleros.ui").show_result("Result", { display_text }, { title = "Kleros" })
 end, { nargs = "?", complete = get_table_completion })
