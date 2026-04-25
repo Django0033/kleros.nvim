@@ -32,6 +32,7 @@ test("isTheme", "isTheme", nil)
 test("isDescriptor", "isDescriptor", nil)
 test("isFocus", "isFocus", nil)
 test("isPromptBuild", "isPromptBuild", nil)
+test("isCharacterRevealedDetails", "isCharacterRevealedDetails", nil)
 
 print("\n--- Range Tables: Overland ---")
 test("isOverlandLandmark", "isOverlandLandmark", nil)
