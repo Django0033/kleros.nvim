@@ -6,6 +6,8 @@ local constants = require("kleros.constants")
 
 local PLACEHOLDER = constants.PLACEHOLDER_PLACE
 local ERROR_PREFIX = constants.ERROR_PREFIX
+local DICE = constants.DICE_DEFAULTS
+local ADV = constants.ADVANTAGE_TYPES
 
 local function find_table_by_name(table_name, tables_index)
 	if not table_name or not tables_index then return nil end
@@ -101,9 +103,6 @@ local function find_sub_table(sub_name, parent_tbl, tables_index)
 			if tbl_key_lower == sub_name_lower then
 				return tbl_module[tbl_key]
 			end
-		end
-		for tbl_key, tbl_module in pairs(tables_index) do
-			local tbl_key_lower = tbl_key:lower()
 			if tbl_key_lower:match(sub_name_lower) or sub_name_lower:match(tbl_key_lower) then
 				return tbl_module[tbl_key]
 			end
@@ -178,16 +177,16 @@ local function resolve_place(tbl, tables_index)
 end
 
 local function roll_with_advantage(dice_expr, advantage)
-	if not advantage or advantage == "normal" then
+	if not advantage or advantage == ADV.NORMAL then
 		return dice.roll_dice(dice_expr)
 	end
 
 	local sides = dice_expr:match("1d(%d+)")
-	sides = tonumber(sides) or 100
+	sides = tonumber(sides) or DICE.DEFAULT_SIDES
 
 	local r1 = math.random(1, sides)
 	local r2 = math.random(1, sides)
-	local total = (advantage == "advantage") and math.max(r1, r2) or math.min(r1, r2)
+	local total = (advantage == ADV.ADVANTAGE) and math.max(r1, r2) or math.min(r1, r2)
 
 	return { r1, r2 }, total
 end
@@ -199,15 +198,14 @@ local function resolve_syllable3(sub_name, tables_index)
 	local sub_tbl = find_sub_table(base_name, nil, tables_index)
 	if not sub_tbl then return nil end
 
-	local dice_expr = sub_tbl.dice
 	local roll_total
 
 	if modifier == "-" then
-		roll_total = math.random(1, 10)
+		roll_total = math.random(1, DICE.SYLLABLE3_MODIFIER_RANGE)
 	elseif modifier == "+" then
-		roll_total = math.random(1, 10) + 10
+		roll_total = math.random(1, DICE.SYLLABLE3_MODIFIER_RANGE) + DICE.SYLLABLE3_MODIFIER_OFFSET
 	else
-		roll_total = math.random(1, 20)
+		roll_total = math.random(1, DICE.SYLLABLE3_FULL_RANGE)
 	end
 
 	return sub_tbl.entries[roll_total] or ""
@@ -224,7 +222,7 @@ end
 local function resolve_procedural(tbl, tables_index, advantage)
 	local results, total
 
-	if advantage and advantage ~= "normal" then
+	if advantage and advantage ~= ADV.NORMAL then
 		results, total = roll_with_advantage(tbl.dice, advantage)
 	else
 		results, total = dice.roll_dice(tbl.dice)
@@ -329,20 +327,24 @@ local function roll_compound(tbl)
 	return total, table.concat(parts, separator)
 end
 
+local SUFFIX_ADVANTAGE = "%!$"
+local SUFFIX_DISADVANTAGE = "%?$"
+local SUFFIX_SEPARATOR = "%."
+
 local function parse_table_name(table_name)
 	local base_name = table_name
-	local advantage = "normal"
+	local advantage = ADV.NORMAL
 
-	if table_name:match("%!$") then
-		base_name = table_name:gsub("%!$", "")
-		advantage = "advantage"
-	elseif table_name:match("%?$") then
-		base_name = table_name:gsub("%?$", "")
-		advantage = "disadvantage"
+	if table_name:match(SUFFIX_ADVANTAGE) then
+		base_name = table_name:gsub(SUFFIX_ADVANTAGE, "")
+		advantage = ADV.ADVANTAGE
+	elseif table_name:match(SUFFIX_DISADVANTAGE) then
+		base_name = table_name:gsub(SUFFIX_DISADVANTAGE, "")
+		advantage = ADV.DISADVANTAGE
 	end
 
 	local subkey = nil
-	if base_name:match("%.") then
+	if base_name:match(SUFFIX_SEPARATOR) then
 		subkey = base_name:match("%.(.+)$")
 		base_name = base_name:match("^([^%.]+)")
 	end

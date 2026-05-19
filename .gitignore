@@ -40,6 +40,7 @@ luac.out
 *.hex
 
 .opencode/
+.agents/
 opencode.json
 AGENTS.md
 ironsworn-lodestar-expanded.pdf
