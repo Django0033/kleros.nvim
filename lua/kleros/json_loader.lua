@@ -1,3 +1,4 @@
+local constants = require("kleros.constants")
 local M = {}
 
 function M.load_file(path)
@@ -101,9 +102,8 @@ function M.validate_table(tbl)
 		return false, "Error: missing or invalid 'type' field"
 	end
 
-	local valid_types = { "simple", "range", "select", "compound", "procedural" }
 	local is_valid_type = false
-	for _, v in ipairs(valid_types) do
+	for _, v in ipairs(constants.TABLE_TYPES) do
 		if tbl.type == v then
 			is_valid_type = true
 			break
