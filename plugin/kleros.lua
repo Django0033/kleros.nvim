@@ -87,3 +87,17 @@ vim.api.nvim_create_user_command("Kleros", function(opts)
 	print(display_text)
 	require("kleros.ui").show_result("Result", { display_text }, { title = "Kleros" })
 end, { nargs = "?", complete = get_table_completion })
+
+vim.api.nvim_create_user_command("KlerosBrowse", function(opts)
+	local browser = require("kleros.browser")
+
+	if not browser.is_available() then
+		vim.notify("[kleros] Telescope not found. Install telescope.nvim to use :KlerosBrowse", vim.log.WARN)
+		return
+	end
+
+	local telescope = require("telescope")
+	local picker = require("kleros.browser.picker")
+
+	picker.new():find()
+end, { nargs = 0 })
