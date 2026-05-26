@@ -1,192 +1,196 @@
 # kleros.nvim
 
-Random tables plugin for TTRPGs in Neovim.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Neovim](https://img.shields.io/badge/Neovim-0.10+-green.svg)](https://neovim.io)
+[![Lua](https://img.shields.io/badge/Lua-5.1-blue.svg)](https://lua.org)
 
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
-[![Neovim](https://img.shields.io/badge/Neovim-0.10+-57a943?style=flat-square&logo=neovim)](https://github.com/neovim/neovim/releases/tag/v0.10.0)
+Random table generation for TTRPGs in Neovim — roll actions, themes, character details, settlements, fantasy names, and more directly from your editor.
 
-A plugin that brings random table generation to Neovim, perfect for tabletop role-playing games. Generate actions, themes, character details, settlements, fantasy names, and more with a simple command.
+Built-in tables adapted from **Ironsworn Lodestar Extended** and the **Juice Name Generator**. Supports custom user tables in JSON format.
 
-[Overview](#overview) • [Quick Start](#quick-start) • [Usage](#usage) • [Table Types](#table-types) • [Configuration](#configuration) • [API](#api)
+[Quick Start](#quick-start) • [Usage](#usage) • [Table Types](#table-types) • [User Tables](#user-tables) • [Configuration](#configuration) • [API](#api)
 
-## Overview
-
-kleros.nvim provides on-demand random table generation directly in Neovim. Built-in tables come from two systems:
-
-- **Ironsworn Lodestar Extended** - Actions, themes, character traits, settlements, delve sites
-- **Juice Name Generator** - Procedural fantasy name generation using syllable tables
-
-> [!TIP]
-> You can add your own custom tables in JSON format. See [User Tables](#user-tables) for details.
-
-## Features
-
-- **5 Table Types**: simple, range, select, compound, and procedural
-- **Advantage/Disadvantage**: Roll twice and take higher/lower for procedural tables
-- **User-Defined Tables**: Load custom JSON tables from your config directory
-- **Autocompletion**: Tab-complete table names with the `:Kleros` command
-- **Floating Window**: Results displayed in a clean floating window with copy/insert options
-- **Lua API**: Programmatic access for scripting and automation
+---
 
 ## Quick Start
 
-### Installation
+**Installation** with lazy.nvim:
 
 ```lua
--- lazy.nvim
-{ "yourusername/kleros.nvim" }
+{
+  "Django0033/kleros.nvim",
+  opts = {},
+}
 ```
+
+With other plugin managers:
 
 ```vim
 " vim-plug
-Plug 'yourusername/kleros.nvim'
+Plug 'Django0033/kleros.nvim'
+" packer.nvim
+use 'Django0033/kleros.nvim'
 ```
 
-### Setup
+**Setup** in your `init.lua`:
 
 ```lua
 require("kleros").setup()
-
--- Optional: specify custom tables directory
-require("kleros").setup({
-    tables_dir = vim.fn.stdpath("config") .. "/kleros-tables"
-})
 ```
+
+---
 
 ## Usage
 
-```vim
-:Kleros isAction             " Random action (1d100)
-:Kleros isTheme              " Random theme (1d100)
-:Kleros isCharacterActivity " Character activity (1d100, range)
-:Kleros isSettlementType    " Settlement type (select - shows sub-tables)
-:Kleros isSettlementType.settledLands " Specific sub-table
-:Kleros jNameGenerator       " Generate a fantasy name (procedural)
-```
-
-### Advantage and Disadvantage
-
-Append `!` for advantage or `?` for disadvantage on procedural tables:
+### Commands
 
 ```vim
-:Kleros jNameGenerator   " Normal roll
-:Kleros jNameGenerator!  " Advantage (roll twice, take higher)
-:Kleros jNameGenerator?  " Disadvantage (roll twice, take lower)
+:Kleros isAction                  " Roll a random action
+:Kleros isCharacterActivity       " Roll with weighted ranges
+:Kleros isSettlementType          " List available sub-tables
+:Kleros isSettlementType.settledLands  " Roll a specific sub-table
+:Kleros jNameGenerator            " Generate a procedural fantasy name
+:Kleros jNameGenerator!           " Roll with advantage
+:Kleros jNameGenerator?           " Roll with disadvantage
+:KlerosBrowse                     " Browse and roll tables via Telescope
 ```
 
-Output examples:
-- `:Kleros jNameGenerator` → `tbl: Juice Name Generator 1d20=7 -> Kalvari`
-- `:Kleros jNameGenerator!` → `tbl: Juice Name Generator 1d20=15 -> Meloshai`
+### Examples
 
-### User Tables
-
-Create JSON files in your tables directory (default: `~/.config/nvim/kleros-tables/`).
-
-**Simple Table:**
-```json
-{
-    "name": "NPC Types",
-    "type": "simple",
-    "dice": "1d6",
-    "entries": ["Merchant", "Guard", "Villager", "Noble", "Thief", "Mage"]
-}
+```
+:Kleros isAction     →  Weaken (1d100=3)
+:Kleros isTheme      →  Portent (1d100=68)
+:Kleros isCharacterActivity →  Journeying (1d100=47)
+:Kleros isDelveSiteName       →  Dark Dig (1d100=2)
+:Kleros jNameGenerator!       →  Meloshai (1d20=15)
 ```
 
-**Range Table:**
-```json
-{
-    "name": "Treasure",
-    "type": "range",
-    "dice": "1d100",
-    "entries": [
-        { "min": 1, "max": 50, "result": "Empty pockets" },
-        { "min": 51, "max": 80, "result": "10 gold coins" },
-        { "min": 81, "max": 95, "result": "Gemstone (50g)" },
-        { "min": 96, "max": 100, "result": "Magic item!" }
-    ]
-}
-```
+### Floating Window
+
+Results appear in a centered floating window with these keybinds:
+
+| Key | Action |
+|-----|--------|
+| `q` / `Esc` | Close |
+| `y` / `Y` | Copy to clipboard |
+| `Enter` | Insert at cursor (markdown buffers only) |
+
+### Telescope Browser
+
+Optional integration — use `:KlerosBrowse` to navigate all built-in tables with live entry preview and roll on confirm.
+
+> [!NOTE]
+> Requires [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) for the browser feature. The core `:Kleros` command works without it.
+
+---
 
 ## Table Types
 
-| Type | Description |
-|------|-------------|
-| `simple` | Direct index: `entries[total]` |
-| `range` | Match: `min <= total <= max` |
-| `select` | Sub-tables accessed via dot notation |
-| `compound` | Concatenate multiple elements |
-| `procedural` | Template with nested placeholders |
+kleros.nvim supports 5 table types:
 
-### Nested Tables (Select Type)
+| Type | Description | Example |
+|------|-------------|---------|
+| `simple` | Direct index: `entries[roll]` | `isAction`, `isTheme` |
+| `range` | Weighted: `min ≤ roll ≤ max` | `isCharacterActivity`, `isOverlandPeril` |
+| `select` | Sub-tables via dot notation | `isSettlementType.settledLands` |
+| `compound` | Combine elements from multiple pools | `isSettlementNameGenerator` |
+| `procedural` | Template with `[Placeholder]` resolution | `isDelveSiteName`, `jNameGenerator` |
 
-Some tables contain multiple sub-tables. Use dot notation:
+### Built-in Tables (40+)
 
-```vim
-:Kleros isSettlementType.settledLands
-:Kleros isSettlementType.boundaryLands
-:Kleros isSettlementType.remoteLands
+**Ironsworn** — Actions, themes, descriptors, focuses, character traits (names, roles, goals, dispositions, first looks, activities, revealed details), settlement generators (types, conditions, projects, troubles, dispositions, cultural touchstones, name generator), overland and coastal waters elements (landmarks, perils, opportunities, waypoints), delve site names (descriptions, details, namesakes, places).
+
+**Juice** — Fantasy name generation using 3 syllable pools and procedural template resolution.
+
+---
+
+## User Tables
+
+Create custom tables as JSON files in `~/.config/nvim/kleros-tables/` (configurable).
+
+**Simple table:**
+
+```json
+{
+  "name": "NPC Types",
+  "type": "simple",
+  "dice": "1d6",
+  "entries": ["Merchant", "Guard", "Villager", "Noble", "Thief", "Mage"]
+}
 ```
+
+**Range table:**
+
+```json
+{
+  "name": "Treasure",
+  "type": "range",
+  "dice": "1d100",
+  "entries": [
+    { "min": 1, "max": 50, "result": "Nothing" },
+    { "min": 51, "max": 80, "result": "10 gold" },
+    { "min": 81, "max": 100, "result": "Magic item" }
+  ]
+}
+```
+
+All 5 table types are supported in JSON. Use the same structure as the built-in Lua tables.
+
+---
 
 ## Configuration
 
 ```lua
 require("kleros").setup({
-    -- Custom tables directory
-    tables_dir = "~/my-ttrpg-tables",
+  -- Custom tables directory (default: stdpath("config") .. "/kleros-tables")
+  tables_dir = "~/my-ttrpg-tables",
 
-    -- Floating window options
-    float = {
-        border = "rounded",  -- Border style
-        height = 0.4,        -- Window height (0-1)
-        width = 0.6,         -- Window width (0-1)
-    }
+  -- Floating window appearance (default values shown)
+  float = {
+    border = "rounded",  -- Any Neovim border style
+    height = 0.4,        -- Fraction of editor height (0-1)
+    width = 0.6,         -- Fraction of editor width (0-1)
+  },
 })
 ```
+
+---
 
 ## API
 
 ```lua
+local kleros = require("kleros")
+
+-- Roll a table by name
+local name, dice, total, result = kleros.table_roll("isAction")
+
+-- With advantage/disadvantage
+local _, _, total, name = kleros.table_roll("jNameGenerator!")
+
+-- Low-level dice roller
 local dice = require("kleros.dice")
-local table_roll = require("kleros.table_roll")
-
--- Roll from table
-local tbl_name, tbl_dice, total, entry = table_roll.table_roll("isAction")
-
--- Roll with advantage/disadvantage
-local _, _, total, name = table_roll.table_roll("jNameGenerator!")
+local results, total = dice.roll("2d6")
 ```
 
-## Available Tables
+### Module Reference
 
-| Prefix | System | Examples |
-|--------|--------|----------|
-| `is*` | Ironsworn | `isAction`, `isTheme`, `isCharacterActivity`, `isSettlementType` |
-| `j*` | Juice | `jSyllable1`, `jSyllable2`, `jNameGenerator` |
+| Module | Description |
+|--------|-------------|
+| `kleros.dice` | Dice roller — parse and roll expressions like `"1d100"` |
+| `kleros.table_roll` | Table resolution — roll any built-in or user table |
+| `kleros.ui` | Floating window for result display |
+| `kleros.browser` | Telescope integration for browsing tables |
+| `kleros.user_tables` | Load and manage custom JSON tables |
+| `kleros.config` | Plugin configuration getter |
 
-## Project Structure
+---
 
-```
-lua/kleros/
-├── init.lua          -- Entry point
-├── dice.lua          -- Dice rolling engine
-├── table_roll.lua    -- Table resolution logic
-├── json_loader.lua   -- JSON file loader
-├── user_tables.lua   -- User table manager
-├── config.lua        -- Configuration
-└── tables/           -- Built-in tables (40+ files)
+## Development
 
-plugin/kleros.lua     -- :Kleros command
-tests/test_kleros.lua -- Test suite
-```
-
-## Contributing
-
-Contributions welcome! Please ensure tests pass before submitting PRs.
+Run tests:
 
 ```bash
 nvim --headless -c "luafile tests/test_kleros.lua" -c "qa"
 ```
 
-## License
-
-Ironsworn tables adapted from Ironsworn Lodestar Extended are fan content. Ironsworn was created by Shawn Tompkin and is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+All 36+ test cases should pass.
