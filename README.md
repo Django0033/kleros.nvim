@@ -32,11 +32,11 @@ Plug 'Django0033/kleros.nvim'
 use 'Django0033/kleros.nvim'
 ```
 
-Using `vim-pack`:
+Using Neovim built-in (`vim.pack`):
 
-```bash
-git clone https://github.com/Django0033/kleros.nvim.git \
-  ~/.local/share/nvim/site/pack/plugins/start/kleros.nvim
+```lua
+-- Requires Neovim 0.10+
+vim.pack.add("Django0033/kleros.nvim")
 ```
 
 **Setup** in your `init.lua`:
